@@ -5,7 +5,7 @@
 - Brandon Jones (CS): 
 - Noah Trenaman (CS): 
 - Rajdeep Bandopadhyay (CS):
-- Manvith Krishna Kandukuri (CS): 
+- Manvith Krishna Kandukuri (CS): kandukma@mail.uc.edu
 
 ### Project Topic Area
 Web-based nutrition//health application
