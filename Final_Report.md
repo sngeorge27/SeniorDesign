@@ -15,7 +15,6 @@ Project Advisor: Dr. Gregory Bucks
 ### Project Abstract
 Our aim is to build a tightly-bound ecosystem of software tools to help people set nutrition goals, gain insight to their nutrient intake, and get customized suggestions for new foods or ingredients to add to their diet based on their unique dietary restrictions.  This project will involve building a combined database from many nutrient datasets, as well as developing a custom API to query foods and generate suggestions. We will also develop at least one front-end application to interact with this database and API, such as a mobile app or web app. Upon completion of our project, users will be able to intuitively navigate through a very large dataset of micronutrient profiles, get a simple visual summary of progress towards their goals, and gain access to well-informed food recommendations that do not exist on any free nutrient apps today.
 
-
 ## Project Description
 
 ## User Stories and Design Diagrams
@@ -41,7 +40,37 @@ In terms of measuring personal growth and success over the course of the year, I
 
 ## Professional Biographies
 
-Sarah:
+### Sarah George
+
+### Contact Information
+- Email: georges6@mail.uc.edu
+- Phone: 330-780-3211
+
+### Co-op/Work Experience
+**Atomic Robot, App Development Co-op**
+
+*Dates of Employment: August 2019 – May 2021*
+
+- Aided in the development of the VITAS app redesign and recent opioid converter feature for VITAS Healthcare
+- Used Dart, Flutter framework, and TypeScript to implement redesigned UI, address maintenance/QA fixes, and
+configure SendGrid summary email template of the feature with corresponding API
+- Implementation of the app assisted healthcare professionals and VITAS employees in educating individuals about
+hospice care, referring eligible patients, performing opioid conversions, and staying informed with events happening
+within the company
+- Identification and implementation of maintenance/QA fixes, Mixpanel analytics events, and new profile page UI
+elements for P&G Setlist Beauty iOS app
+- Wrote and incorporated translations for the Spanish version of the Eyemed/Aetna eyecare iOS application
+
+**London Computer Systems, Software Developer Co-op (Mobile Team)**
+
+*Dates of Employment: August 2021 – August 2022*
+
+- Aided in the development of new features for rmAppSuitePro
+- Used Kotlin and Android tooling integrated into Android Studio to create new custom view for the assets feature, add
+realm objects to match newly created Rent Manager data fields, and implement various maintenance/QA fixes
+- Worked closely with QA team to ensure submitted code changes function as expected and overall app performance and
+efficiency is maintained
+- Implementation and release of app changes assisted Rent Manager clients in utilizing the software while in the field and giving vendors and team members quick access to pertinent property, tenant, unit, and rental information
 
 
 ## Budget
