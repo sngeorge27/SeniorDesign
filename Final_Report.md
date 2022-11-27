@@ -22,7 +22,7 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 ## Project Tasks and Timeline
 
 ## PPT Slideshow
-Link to Fall Presentation:
+Link to Fall Presentation: https://drive.google.com/file/d/1oX4bxWCx7wPBr81AYniCrmxQn2K68TSb/view?usp=sharing
 
 ## Self-Assessment Essays
 Sarah:
