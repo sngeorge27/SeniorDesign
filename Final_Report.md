@@ -74,5 +74,6 @@ efficiency is maintained
 
 
 ## Budget
+There have been no expenses to date.
 
 ## Appendix
