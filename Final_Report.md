@@ -16,6 +16,7 @@ Project Advisor: Dr. Gregory Bucks
 Our aim is to build a tightly-bound ecosystem of software tools to help people set nutrition goals, gain insight to their nutrient intake, and get customized suggestions for new foods or ingredients to add to their diet based on their unique dietary restrictions.  This project will involve building a combined database from many nutrient datasets, as well as developing a custom API to query foods and generate suggestions. We will also develop at least one front-end application to interact with this database and API, such as a mobile app or web app. Upon completion of our project, users will be able to intuitively navigate through a very large dataset of micronutrient profiles, get a simple visual summary of progress towards their goals, and gain access to well-informed food recommendations that do not exist on any free nutrient apps today.
 
 ## Project Description
+Our project will involve developing software for two major components which will both be necessary for satisfying end-users. The first component is a unique kind of data engine which combines various nutrient datasets and makes them queryable. This can be implemented in any programming language and will likely be accessed by a REST API. The data engine will also include models of user settings and goals, for example being pre-populated with default RDA values from the National Academy of Medcine. The second component will be an intuitive front-end graphical interface to the data, for example either a web app or a mobile app. We'd like the userto eb able to enter their goals and then make queries to the data engine in order to get services from our system like food recommendations and breakdowns of micronutrient intakes plotted against nutrient goals.
 
 ## User Stories and Design Diagrams
 ### User Stories:
@@ -299,3 +300,7 @@ All my coops were in the realm of C++ performance-sensitive projects with a tad 
 There have been no expenses to date.
 
 ## Appendix
+* [Team Contract](https://docs.google.com/document/d/1mUYPBMwrzXDI22Fi_bYxUmuykg8t_2BLEdOTHxGmDcA/edit?usp=sharing)
+* [Constraints Essay](https://docs.google.com/document/d/1xGBAxoog93Yj2UNvEsEd6dHUkPoD30DnQHAILRP0EsA/edit?usp=sharing)
+* [UDSA DRI (RDA) Tool](https://www.nal.usda.gov/human-nutrition-and-food-safety/dri-calculator)
+* [USDA FoodData Central](https://fdc.nal.usda.gov/)
