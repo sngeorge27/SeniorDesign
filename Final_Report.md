@@ -24,7 +24,14 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 - As an athlete, I want to track my macronutrient intake in order to help maintain my muscle mass.
 
 ### Design Diagrams:
-![alt text]()
+![alt text](https://github.com/sngeorge27/SeniorDesign/blob/main/image3.png)
+
+![alt text](https://github.com/sngeorge27/SeniorDesign/blob/main/image2.png)
+
+![alt text](https://github.com/sngeorge27/SeniorDesign/blob/main/image1.png)
+
+![alt text](https://github.com/sngeorge27/SeniorDesign/blob/main/image4.png)
+
 
 ## Project Tasks and Timeline
 ### Milestone List:
@@ -279,7 +286,6 @@ All my coops were in the realm of C++ performance-sensitive projects with a tad 
 ## Project-ideas:
  I am currently unsure about the topic, but I am generally fond of something simple and elegant. Regardless some ideas below:
  
-
  - ML monitoring/deployment framework for bayesian-based super-looped contiguous tuning
  - Design space exploration and engineering algorithms for FPGAs
 
