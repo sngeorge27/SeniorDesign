@@ -52,6 +52,9 @@ Presentation Preparation - complete necessary work for presentation of project (
 - Create poster/demo
 - Practice presentation
 
+### Timeline
+![alt text](https://github.com/sngeorge27/SeniorDesign/blob/main/timeline1.jpg?raw=true)
+
 
 ## PPT Slideshow
 Link to Fall Presentation: https://drive.google.com/file/d/1oX4bxWCx7wPBr81AYniCrmxQn2K68TSb/view?usp=sharing
