@@ -1,0 +1,4 @@
+.DS_Store
+sdp/data/
+sdp.egg-info/
+*.pyc
