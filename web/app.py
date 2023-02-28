@@ -26,6 +26,5 @@ def profile():
 def settings():
     return render_template("./settings.html", route="/settings")
 
-
 if __name__ == "__main__":
     app.run()
