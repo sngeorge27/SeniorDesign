@@ -2,3 +2,4 @@
 sdp/data/
 sdp.egg-info/
 *.pyc
+google-cloud-sdk
