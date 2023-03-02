@@ -1,45 +1,27 @@
-apiVersion: serving.knative.dev/v1
-kind: Service
-metadata:
-  name: sabrosa
-  namespace: '889164338186'
-  selfLink: /apis/serving.knative.dev/v1/namespaces/889164338186/services/sabrosa
-  uid: bbf9ff09-535e-4ac9-87de-dade5d7ae46a
-  resourceVersion: AAX137+B9Xo
-  generation: 2
-  creationTimestamp: '2023-03-02T00:15:20.507638Z'
-  labels:
-    managed-by: gcp-cloud-build-deploy-cloud-run
-    gcb-trigger-id: db979cbc-0e7e-4e11-9b26-154abefe669f
-    cloud.googleapis.com/location: us-central1
-  annotations:
-    run.googleapis.com/client-name: cloud-console
-    serving.knative.dev/creator: sngeorge27@gmail.com
-    serving.knative.dev/lastModifier: sngeorge27@gmail.com
-    client.knative.dev/user-image: gcr.io/cloudrun/placeholder
-    run.googleapis.com/operation-id: 6bcd4657-e2bf-4509-9376-b70b8826dc24
-    run.googleapis.com/ingress: all
-    run.googleapis.com/ingress-status: all
-spec:
-  template:
-    metadata:
-      name: sabrosa-placeholder
-      annotations:
-        run.googleapis.com/client-name: cloud-console
-        autoscaling.knative.dev/maxScale: '100'
-    spec:
-      containerConcurrency: 80
-      timeoutSeconds: 300
-      serviceAccountName: 889164338186-compute@developer.gserviceaccount.com
-      containers:
-      - image: gcr.io/cloudrun/placeholder
-        ports:
-        - name: http1
-          containerPort: 8080
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 512Mi
-  traffic:
-  - percent: 100
-    latestRevision: true
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+runtime: python39
+
+handlers:
+  # This configures Google App Engine to serve the files in the app's static
+  # directory.
+- url: /static
+  static_dir: static
+
+  # This handler routes all requests not caught above to your main app. It is
+  # required when static routes are defined, but can be omitted (along with
+  # the entire handlers section) when there are no static files defined.
+- url: /.*
+  script: auto
