@@ -1,0 +1,45 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: sabrosa
+  namespace: '889164338186'
+  selfLink: /apis/serving.knative.dev/v1/namespaces/889164338186/services/sabrosa
+  uid: bbf9ff09-535e-4ac9-87de-dade5d7ae46a
+  resourceVersion: AAX137+B9Xo
+  generation: 2
+  creationTimestamp: '2023-03-02T00:15:20.507638Z'
+  labels:
+    managed-by: gcp-cloud-build-deploy-cloud-run
+    gcb-trigger-id: db979cbc-0e7e-4e11-9b26-154abefe669f
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    run.googleapis.com/client-name: cloud-console
+    serving.knative.dev/creator: sngeorge27@gmail.com
+    serving.knative.dev/lastModifier: sngeorge27@gmail.com
+    client.knative.dev/user-image: gcr.io/cloudrun/placeholder
+    run.googleapis.com/operation-id: 6bcd4657-e2bf-4509-9376-b70b8826dc24
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+spec:
+  template:
+    metadata:
+      name: sabrosa-placeholder
+      annotations:
+        run.googleapis.com/client-name: cloud-console
+        autoscaling.knative.dev/maxScale: '100'
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      serviceAccountName: 889164338186-compute@developer.gserviceaccount.com
+      containers:
+      - image: gcr.io/cloudrun/placeholder
+        ports:
+        - name: http1
+          containerPort: 8080
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+  traffic:
+  - percent: 100
+    latestRevision: true
