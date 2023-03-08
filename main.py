@@ -6,9 +6,9 @@ app = Flask(__name__)
 def index():
     return render_template("./index.html", route="/", userName="Brandon")
 
-@app.route("/goals")
+@app.route("/api/goals", methods=["GET"])
 def goals():
-    return render_template("./goals.html", route="/goals")
+    return {"test": 1234}
 
 @app.route("/progress")
 def progress():
@@ -27,4 +27,4 @@ def settings():
     return render_template("./settings.html", route="/settings")
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run()

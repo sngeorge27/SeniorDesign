@@ -10,6 +10,7 @@ import Progress from "./pages/progress";
 import Track from "./pages/track";
 import Profile from "./pages/profile";
 import Settings from "./pages/settings";
+import Dashboard from "./pages/dashboard";
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
         element: <Base />,
         errorElement: <ErrorPage />,
         children: [
+            { index: true, element: <Dashboard /> },
             {
                 path: "/goals",
                 element: <Goals />,

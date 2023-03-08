@@ -1,8 +1,5 @@
-import { Helmet } from "react-helmet-async";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import Head from "../components/Head";
-import "../styles/base.css";
-import "../styles/responsive.css";
 
 export default function Base() {
     return (
@@ -10,14 +7,14 @@ export default function Base() {
             <Head title="Sabrosa Health" />
             <header>
                 <div className="logosec">
-                    <Link to="/" className="logo">
+                    <NavLink to="/" className="logo">
                         Sabrosa Health
-                    </Link>
+                    </NavLink>
                 </div>
 
                 <div className="searchbar">
                     <input type="text" placeholder="Search" />
-                    <div className="searchbtn">
+                    <div className="searchbtn text-white">
                         <i className="fa fa-search" aria-hidden="true"></i>
                     </div>
                 </div>
@@ -37,53 +34,53 @@ export default function Base() {
                 <div className="navcontainer">
                     <nav className="nav">
                         <div className="nav-upper-options">
-                            <Link to="/" className="nav-option">
+                            <NavLink to="/" className="nav-option">
                                 <i
                                     className="fa fa-tachometer"
                                     aria-hidden="true"
                                 ></i>
                                 <h3>Dashboard</h3>
-                            </Link>
-                            <Link to="/goals" className="nav-option">
+                            </NavLink>
+                            <NavLink to="/goals" className="nav-option">
                                 <i
-                                    className="fa fa-bullseye"
+                                    className="fa fa-bullseye "
                                     aria-hidden="true"
                                 ></i>
                                 <h3>Goals</h3>
-                            </Link>
-                            <Link to="/progress" className="nav-option">
+                            </NavLink>
+                            <NavLink to="/progress" className="nav-option">
                                 <i
                                     className="fa fa-pie-chart"
                                     aria-hidden="true"
                                 ></i>
                                 <h3>Progress</h3>
-                            </Link>
-                            <Link to="/track" className="nav-option">
+                            </NavLink>
+                            <NavLink to="/track" className="nav-option">
                                 <i
                                     className="fa fa-pencil-square"
                                     aria-hidden="true"
                                 ></i>
                                 <h3>Track</h3>
-                            </Link>
-                            <Link to="/profile" className="nav-option">
+                            </NavLink>
+                            <NavLink to="/profile" className="nav-option">
                                 <i
                                     className="fa fa-user"
                                     aria-hidden="true"
                                 ></i>
                                 <h3>Profile</h3>
-                            </Link>
-                            <Link to="/settings" className="nav-option">
+                            </NavLink>
+                            <NavLink to="/settings" className="nav-option">
                                 <i className="fa fa-cog" aria-hidden="true"></i>
                                 <h3>Settings</h3>
-                            </Link>
+                            </NavLink>
                             <div
-                                class="nav-option logout"
+                                className="nav-option logout"
                                 onClick={() => {
                                     alert("put logout functionality here");
                                 }}
                             >
                                 <i
-                                    class="fa fa-sign-out"
+                                    className="fa fa-sign-out"
                                     aria-hidden="true"
                                 ></i>
                                 <h3>Logout</h3>
