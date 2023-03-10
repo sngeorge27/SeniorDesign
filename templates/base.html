@@ -34,6 +34,13 @@
                 </div>
             </div>
 
+            <!--<nav class="signupbtn">
+                <a href="/sign_up" class="nav-option">
+                    <i class="fa fa-tachometer" aria-hidden="true"></i>
+                    <h3>Sign Up</h3>
+                </a>
+            </nav>-->
+
             <div class="message">
                 <div class="dp">
                     <img
@@ -50,13 +57,13 @@
                 <nav class="nav">
                     <div class="nav-upper-options">
                         <!-- home nav -->
-                        {% if route == "/" %}
-                        <a href="/" class="nav-option selected-nav-option">
+                        {% if route == "/index" %}
+                        <a href="/index" class="nav-option selected-nav-option">
                             <i class="fa fa-tachometer" aria-hidden="true"></i>
                             <h3>Dashboard</h3>
                         </a>
                         {% else %}
-                        <a href="/" class="nav-option">
+                        <a href="/index" class="nav-option">
                             <i class="fa fa-tachometer" aria-hidden="true"></i>
                             <h3>Dashboard</h3>
                         </a>
