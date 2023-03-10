@@ -1,10 +1,29 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, request, session, url_for
 
 app = Flask(__name__)
 
+#@app.route("/login", methods=["GET", "POST"])
+#def login():
+#    if request.method == "POST":
+#        email = request.form.get("email")
+#        password = request.form.get("password")
+
+#        if email in UserData and UserData[email][1] == password:
+#            session["email"] = email
+#            return redirect(url_for("profile"))
+#    return render_template("login.html")
+
 @app.route("/")
+def login():
+    return render_template("./login.html", route="/")
+
+@app.route("/index")
 def index():
-    return render_template("./index.html", route="/")
+    return render_template("./index.html", route="/index")
+
+@app.route("/sign_up")
+def sign_up():
+    return render_template("./sign_up.html", route="/sign_up")
 
 @app.route("/goals")
 def goals():
