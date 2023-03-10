@@ -1,19 +1,23 @@
-import Head from "../components/Head";
-import { useEffect } from "react";
-import axios from "axios";
+import HeadMetadata from "../components/HeadMetadata";
+import { useEffect, useState } from "react";
 
 export default function Goals() {
+    const [goalsData, setGoalsData] = useState("");
+
     useEffect(() => {
-        // const exampleApiUrl = "http://localhost:5000/goals";
-        fetch("/api/goals").then((res) => {
-            console.log(res);
-        });
+        fetch("/api/goals")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setGoalsData(JSON.stringify(data));
+            });
     }, []);
 
     return (
         <div>
-            <Head title="Goals" />
+            <HeadMetadata title="Goals" />
             <p>goals</p>
+            <p>{goalsData}</p>
         </div>
     );
 }

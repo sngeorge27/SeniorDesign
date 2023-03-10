@@ -1,9 +1,9 @@
-import Head from "../components/Head";
+import HeadMetadata from "../components/HeadMetadata";
 
 export default function Progress() {
     return (
         <div>
-            <Head title="Progress" />
+            <HeadMetadata title="Progress" />
             <p>progress</p>
         </div>
     );

@@ -1,9 +1,9 @@
-import Head from "../components/Head";
+import HeadMetadata from "../components/HeadMetadata";
 
 export default function Profile() {
     return (
         <div>
-            <Head title="Profile" />
+            <HeadMetadata title="Profile" />
             <p>profile</p>
         </div>
     );

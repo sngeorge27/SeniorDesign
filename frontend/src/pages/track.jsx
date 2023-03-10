@@ -1,9 +1,9 @@
-import Head from "../components/Head";
+import HeadMetadata from "../components/HeadMetadata";
 
 export default function Track() {
     return (
         <div>
-            <Head title="Track" />
+            <HeadMetadata title="Track" />
             <p>track</p>
         </div>
     );

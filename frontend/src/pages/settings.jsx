@@ -1,9 +1,9 @@
-import Head from "../components/Head";
+import HeadMetadata from "../components/HeadMetadata";
 
 export default function Settings() {
     return (
         <div>
-            <Head title="Settings" />
+            <HeadMetadata title="Settings" />
             <p>Settings</p>
         </div>
     );

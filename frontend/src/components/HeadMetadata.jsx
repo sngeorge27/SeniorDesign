@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-export default function Head({ title }) {
+export default function HeadMetadata({ title }) {
     return (
         <Helmet>
             <meta charset="UTF-8" />
