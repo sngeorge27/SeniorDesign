@@ -1,6 +1,27 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import axios from "axios";
 
 export default function Nav() {
+    const { onLogout } = useAuth();
+
+    function logMeOut() {
+        axios({
+            method: "POST",
+            url: "/api/logout",
+        })
+            .then((response) => {
+                onLogout();
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                }
+            });
+    }
+
     return (
         <div className="navcontainer">
             <nav className="nav">
@@ -32,12 +53,7 @@ export default function Nav() {
                         <i className="fa fa-cog" aria-hidden="true"></i>
                         <h3>Settings</h3>
                     </NavLink>
-                    <div
-                        className="nav-option logout"
-                        onClick={() => {
-                            alert("put logout functionality here");
-                        }}
-                    >
+                    <div className="nav-option logout" onClick={logMeOut}>
                         <i className="fa fa-sign-out" aria-hidden="true"></i>
                         <h3>Logout</h3>
                     </div>
