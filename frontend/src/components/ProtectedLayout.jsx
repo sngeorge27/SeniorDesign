@@ -2,14 +2,18 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import HeadMetadata from "../components/HeadMetadata";
 import Nav from "../components/Nav";
-import useToken from "../hooks/useToken";
-import { redirect } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { Navigate, useLocation } from "react-router-dom";
+// ...
 
-export default function Base() {
-    const { token, removeToken, setToken } = useToken();
+export const ProtectedLayout = () => {
+    const { token } = useAuth();
+    const location = useLocation();
 
-    if (!token && token !== "" && token !== undefined) {
-        redirect("/login");
+    if (!token) {
+        return (
+            <Navigate to="/login" return replace state={{ from: location }} />
+        );
     }
 
     return (
@@ -17,11 +21,11 @@ export default function Base() {
             <HeadMetadata title="Sabrosa Health" />
             <Header />
             <div className="main-container">
-                <Nav token={removeToken} />
+                <Nav />
                 <div className="main">
                     <Outlet />
                 </div>
             </div>
         </div>
     );
-}
+};
