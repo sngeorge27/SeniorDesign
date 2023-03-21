@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import axios from "axios";
+import { useState } from "react";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 
 export default function Nav() {
     const { onLogout } = useAuth();
@@ -23,42 +26,81 @@ export default function Nav() {
     }
 
     return (
-        <div className="navcontainer">
-            <nav className="nav">
-                <div className="nav-upper-options">
-                    <NavLink to="/" className="nav-option">
-                        <i className="fa fa-tachometer" aria-hidden="true"></i>
-                        <h3>Dashboard</h3>
-                    </NavLink>
-                    <NavLink to="/goals" className="nav-option">
-                        <i className="fa fa-bullseye " aria-hidden="true"></i>
-                        <h3>Goals</h3>
-                    </NavLink>
-                    <NavLink to="/progress" className="nav-option">
-                        <i className="fa fa-pie-chart" aria-hidden="true"></i>
-                        <h3>Progress</h3>
-                    </NavLink>
-                    <NavLink to="/track" className="nav-option">
-                        <i
-                            className="fa fa-pencil-square"
-                            aria-hidden="true"
-                        ></i>
-                        <h3>Track</h3>
-                    </NavLink>
-                    <NavLink to="/profile" className="nav-option">
-                        <i className="fa fa-user" aria-hidden="true"></i>
-                        <h3>Profile</h3>
-                    </NavLink>
-                    <NavLink to="/settings" className="nav-option">
-                        <i className="fa fa-cog" aria-hidden="true"></i>
-                        <h3>Settings</h3>
-                    </NavLink>
-                    <div className="nav-option logout" onClick={logout}>
-                        <i className="fa fa-sign-out" aria-hidden="true"></i>
-                        <h3>Logout</h3>
-                    </div>
-                </div>
-            </nav>
-        </div>
+        <nav className="flex flex-col bg-cyan-800 w-[70px] p-4 justify-between">
+            <div className="flex flex-col items-center">
+                <NavItem href="/" icon="fa-tachometer" label="Dashboard" />
+                <NavItem href="/goals" icon="fa-bullseye" label="Goals" />
+                <NavItem
+                    href="/progress"
+                    icon="fa-pie-chart"
+                    label="Progress"
+                />
+                <NavItem href="/track" icon="fa-pencil-square" label="Track" />
+                <NavItem href="/profile" icon="fa-user" label="Profile" />
+            </div>
+            <div className="flex flex-col items-center">
+                <NavItem href="/settings" icon="fa-cog" label="Settings" />
+                <NavItem
+                    icon="fa-sign-out"
+                    label="Logout"
+                    isAction={true}
+                    actionCallback={logout}
+                />
+            </div>
+        </nav>
     );
 }
+
+const NavItem = ({ href, icon, label, isAction = false, actionCallback }) => {
+    if (isAction) {
+        return (
+            <NavTooltip
+                title={label}
+                arrow
+                placement="right"
+                enterDelay={0}
+                className="cursor-pointer"
+            >
+                <div
+                    onClick={actionCallback}
+                    className="py-2 text-xl transition-all text-gray-100 hover:text-gray-300"
+                >
+                    <i className={`fa ${icon}`} aria-hidden="true"></i>
+                </div>
+            </NavTooltip>
+        );
+    }
+    return (
+        <NavLink
+            to={href}
+            className={({ isActive }) =>
+                isActive
+                    ? "py-3 text-xl transition-all text-yellow-400 hover:text-yellow-500"
+                    : "py-3 text-xl transition-all text-gray-100 hover:text-gray-300"
+            }
+        >
+            <NavTooltip
+                title={label}
+                arrow
+                placement="right"
+                enterDelay={0}
+                className="cursor-pointer"
+            >
+                <i className={`fa ${icon}`} aria-hidden="true"></i>
+            </NavTooltip>
+        </NavLink>
+    );
+};
+
+const NavTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+    [`& .${tooltipClasses.arrow}`]: {
+        color: "rgba(0, 0, 0, 0.87)",
+    },
+    [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: "rgba(0, 0, 0, 0.87)",
+        fontSize: "16px",
+        padding: "10px 15px 10px 15px",
+    },
+}));

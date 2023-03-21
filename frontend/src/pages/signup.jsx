@@ -74,9 +74,9 @@ const SignUp = () => {
     }
 
     return (
-        <div className="h-[100dvh] w-full from-blue-500 to-blue-400 bg-gradient-to-b flex flex-col items-center">
-            <div className="mt-[10dvh]">
-                <h1 className="text-center text-white font-bold text-3xl p-4">
+        <div className="h-[100dvh] w-full from-teal-900 to-teal-800 bg-gradient-to-b flex flex-col items-center">
+            <div className="mt-[10dvh] w-full mx-auto flex flex-col items-center">
+                <h1 className="text-center text-white font-bold text-4xl p-4 leading-loose">
                     Welcome to Sabrosa Health
                 </h1>
                 <div className="min-h-[200px] min-w-[400px] rounded-md bg-gray-100 shadow-md flex flex-col p-4">
@@ -207,14 +207,13 @@ const SignUp = () => {
                                 <p>Already have an account?&nbsp;</p>
                                 <Link
                                     to={"/login"}
-                                    className="underline text-sky-900"
+                                    className="underline text-teal-900"
                                 >
                                     Login
                                 </Link>
                             </div>
                             <button
-                                type="submit"
-                                className="bg-sky-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-sky-600"
+                                className="bg-teal-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-teal-600"
                                 onClick={signup}
                             >
                                 Submit

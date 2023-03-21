@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
+import Header from "../components/Header";
 
 export default function Dashboard() {
     const { token } = useAuth();
@@ -30,11 +31,13 @@ export default function Dashboard() {
 
     return (
         <div className="w-full h-full flex flex-col">
+            <Header
+                title={`Welcome ${user ? user.firstName : ""}!`}
+                subtitle="Here is your overview for today"
+            ></Header>
             {user && (
-                <div>
-                    <h1 className="font-bold text-2xl">
-                        Welcome {user ? user.firstName : ""}!
-                    </h1>
+                <div className="p-4">
+                    <h1 className="font-bold text-2xl"></h1>
                     <p>
                         Name: {user.firstName} {user.lastName}
                     </p>

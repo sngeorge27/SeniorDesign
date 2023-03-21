@@ -1,4 +1,5 @@
 import HeadMetadata from "../components/HeadMetadata";
+import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
@@ -55,6 +56,7 @@ export default function Goals() {
     return (
         <div>
             <HeadMetadata title="Goals" />
+            <Header title="My Goals"></Header>
             <div className="flex flex-col w-[400px] mx-auto ">
                 <h1 className="text-2xl font-semibold">Get RDI Test:</h1>
                 <form className="grid grid-cols-2 gap-1">
