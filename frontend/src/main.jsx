@@ -19,6 +19,7 @@ import Settings from "./pages/settings";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
 import { ProtectedLayout } from "./components/ProtectedLayout";
+import SignUp from "./pages/signup";
 
 const router = createBrowserRouter([
     {
@@ -56,6 +57,11 @@ const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <Login />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: "/signup",
+                element: <SignUp />,
                 errorElement: <ErrorPage />,
             },
         ],

@@ -46,6 +46,34 @@ def logout():
     unset_jwt_cookies(response)
     return response
 
+@app.route('/api/signup', methods=["POST"])
+def create_user():
+    firstName = request.json.get("firstName", None)
+    lastName = request.json.get("lastName", None)
+    age = request.json.get("age", None)
+    sex = request.json.get("sex", None)
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+
+    app.logger.info('%s logged in successfully', firstName)
+
+    access_token = create_access_token(identity=email)
+    response = {"access_token":access_token}
+    return response
+
+@app.route('/api/user')
+@jwt_required()
+def get_user():
+    response_body = {
+        "firstName": "Test",
+        "lastName": "Last",
+        "age": 23,
+        "sex": "male",
+        "email": "test@email.com",
+    }
+
+    return response_body
+
 @app.route('/api/profile')
 @jwt_required()
 def my_profile():
@@ -56,25 +84,27 @@ def my_profile():
 
     return response_body
 
-@app.route("/api/goals", methods=["GET"])
+@app.route("/api/goals", methods=["POST"])
+@jwt_required()
 def goals():
-    return {"test": 1234}
+    age = request.json.get("age", None)
+    sex = request.json.get("sex", None)
+    
+    # with open("../sdp/intake_config.json", 'r') as rdi_file:
+    #     rdi_data = json.load(rdi_file)
+    #     print(rdi_data)
 
-# @app.route("/progress")
-# def progress():
-#     return render_template("./progress.html", route="/progress")
+    # ret_rdi = [x for x in rdi_data if x['profile']['lifeStageGroup'] == sex and x['profile']['minAgeYears'] <= age and x['profile']['maxAgeYears'] > age]
 
-# @app.route("/track")
-# def track():
-#     return render_template("./track.html", route="/track")
+    # output = json.dumps(ret_rdi)
 
-# @app.route("/profile")
-# def profile():
-#     return render_template("./profile.html", route="/profile")
+    test_res = {
+        "age": age,
+        "sex": sex
+    }
 
-# @app.route("/settings")
-# def settings():
-#     return render_template("./settings.html", route="/settings")
+    return test_res
+
 
 if __name__ == "__main__":
     app.run()

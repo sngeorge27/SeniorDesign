@@ -5,12 +5,12 @@ import axios from "axios";
 export default function Nav() {
     const { onLogout } = useAuth();
 
-    function logMeOut() {
+    function logout() {
         axios({
             method: "POST",
             url: "/api/logout",
         })
-            .then((response) => {
+            .then(() => {
                 onLogout();
             })
             .catch((error) => {
@@ -53,7 +53,7 @@ export default function Nav() {
                         <i className="fa fa-cog" aria-hidden="true"></i>
                         <h3>Settings</h3>
                     </NavLink>
-                    <div className="nav-option logout" onClick={logMeOut}>
+                    <div className="nav-option logout" onClick={logout}>
                         <i className="fa fa-sign-out" aria-hidden="true"></i>
                         <h3>Logout</h3>
                     </div>

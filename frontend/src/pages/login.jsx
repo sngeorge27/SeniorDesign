@@ -1,5 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
-import { Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -16,7 +16,9 @@ const Login = () => {
         password: "",
     });
 
-    function logMeIn(event) {
+    const [loginError, setLoginError] = useState(false);
+
+    function login(event) {
         axios({
             method: "POST",
             url: "/api/token",
@@ -26,13 +28,13 @@ const Login = () => {
             },
         })
             .then((response) => {
+                setLoginError(false);
                 setToken(response.data.access_token);
             })
             .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
+                if (error) {
+                    setLoginError(true);
+                    console.log(error);
                 }
             });
 
@@ -58,42 +60,61 @@ const Login = () => {
                 <h1 className="text-center text-white font-bold text-3xl p-4">
                     Welcome to Sabrosa Health
                 </h1>
-                <div className="min-h-[200px] min-w-[300px] rounded-md bg-slate-100 shadow-md flex flex-col p-4">
-                    <h2 className="text-black font-bold text-lg self-center">
+                <div className="min-h-[200px] min-w-[300px] rounded-md bg-gray-100 shadow-md flex flex-col p-4">
+                    <h2 className="text-black font-semibold text-2xl self-center">
                         Login
                     </h2>
                     <form className="p-2 flex flex-col">
                         <div className="m-2 flex flex-col">
-                            <label htmlFor="email">Email</label>
+                            <label className="leading-8" htmlFor="email">
+                                Email
+                            </label>
                             <input
-                                className="p-2"
+                                className="p-2 bg-gray-200 rounded-md shadow"
                                 onChange={handleChange}
                                 type="email"
                                 text={loginForm.email}
                                 name="email"
-                                placeholder="Email"
                                 value={loginForm.email}
+                                required
                             />
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label htmlFor="password">Password</label>
+                            <label className="leading-8" htmlFor="password">
+                                Password
+                            </label>
                             <input
-                                className="p-2"
+                                className="p-2 bg-gray-200 rounded-md shadow"
                                 onChange={handleChange}
                                 type="password"
                                 text={loginForm.password}
                                 name="password"
-                                placeholder="Password"
                                 value={loginForm.password}
+                                required
                             />
                         </div>
-
-                        <button
-                            className="bg-sky-500 rounded-md self-end p-2 m-2 text-white hover:bg-sky-600"
-                            onClick={logMeIn}
-                        >
-                            Submit
-                        </button>
+                        {loginError && (
+                            <p className="p-2 text-red-700">
+                                Incorrect email or password. Try Again
+                            </p>
+                        )}
+                        <div className="flex p-2 justify-between items-center">
+                            <div className="flex">
+                                <p>Need an account?&nbsp;</p>
+                                <Link
+                                    to={"/signup"}
+                                    className="underline text-sky-900"
+                                >
+                                    Register
+                                </Link>
+                            </div>
+                            <button
+                                className="bg-sky-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-sky-600"
+                                onClick={login}
+                            >
+                                Submit
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
