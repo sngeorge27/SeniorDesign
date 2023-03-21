@@ -2,6 +2,7 @@ import HeadMetadata from "../components/HeadMetadata";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
+import Header from "../components/Header";
 
 export default function Profile() {
     const { token } = useAuth();
@@ -32,12 +33,11 @@ export default function Profile() {
     }, []);
 
     return (
-        <div className="Profile">
+        <div>
             <HeadMetadata title="Profile" />
-            <h1 className="text-xl font-bold">Profile Data</h1>
-            <br />
+            <Header title="Profile" showProfile={false}></Header>
             {profileData && (
-                <div>
+                <div className="p-4">
                     <p>
                         <strong>Profile name: &nbsp;</strong>
                         {profileData.profile_name}

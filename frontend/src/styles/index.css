@@ -27,7 +27,7 @@ body {
     overflow-x: hidden;
 }
 
-header {
+/* header {
     height: 70px;
     width: 100vw;
     padding: 0 30px;
@@ -38,7 +38,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 .logo {
     font-size: 27px;

@@ -19,10 +19,9 @@ export const ProtectedLayout = () => {
     return (
         <div>
             <HeadMetadata title="Sabrosa Health" />
-            <Header />
-            <div className="main-container">
+            <div className="flex h-screen w-full bg-gray-200">
                 <Nav />
-                <div className="main">
+                <div className="p-8 flex flex-col w-full">
                     <Outlet />
                 </div>
             </div>
