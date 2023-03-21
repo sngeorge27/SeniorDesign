@@ -55,7 +55,7 @@ const Login = () => {
     }
 
     return (
-        <div className="h-[100dvh] w-full from-teal-900 to-teal-800 bg-gradient-to-b flex flex-col items-center">
+        <div className="h-[100dvh] w-full from-cyan-800 to-cyan-700 bg-gradient-to-b flex flex-col items-center">
             <div className="mt-[10dvh] w-full mx-auto flex flex-col items-center">
                 <h1 className="text-center text-white font-bold text-4xl p-4 leading-loose">
                     Welcome to Sabrosa Health
@@ -103,13 +103,13 @@ const Login = () => {
                                 <p>Need an account?&nbsp;</p>
                                 <Link
                                     to={"/signup"}
-                                    className="underline text-teal-900"
+                                    className="underline text-cyan-900"
                                 >
                                     Register
                                 </Link>
                             </div>
                             <button
-                                className="bg-teal-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-teal-600"
+                                className="bg-cyan-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-cyan-600"
                                 onClick={login}
                             >
                                 Submit
