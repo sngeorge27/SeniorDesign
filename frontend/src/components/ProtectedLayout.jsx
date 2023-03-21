@@ -21,7 +21,7 @@ export const ProtectedLayout = () => {
             <HeadMetadata title="Sabrosa Health" />
             <div className="flex h-screen w-full bg-gray-200">
                 <Nav />
-                <div className="p-8 flex flex-col w-full">
+                <div className="flex flex-col w-full h-full">
                     <Outlet />
                 </div>
             </div>

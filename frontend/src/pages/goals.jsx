@@ -86,14 +86,14 @@ export default function Goals() {
                             value={infoForm.sex}
                             required
                         >
-                            <option selected value=""></option>
+                            <option value=""></option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>
                     </div>
                 </form>
                 <button
-                    className="bg-sky-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-sky-600"
+                    className="font-semibold rounded-md self-end p-2 m-2 text-white bg-cyan-500 hover:bg-cyan-600"
                     onClick={getRDIValues}
                 >
                     Get RDI

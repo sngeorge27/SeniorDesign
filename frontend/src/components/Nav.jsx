@@ -28,7 +28,7 @@ export default function Nav() {
     return (
         <nav className="flex flex-col bg-cyan-800 w-[70px] p-4 justify-between">
             <div className="flex flex-col items-center">
-                <NavItem href="/" icon="fa-tachometer" label="Dashboard" />
+                <NavItem href="/" icon="fa-house" label="Dashboard" />
                 <NavItem href="/goals" icon="fa-bullseye" label="Goals" />
                 <NavItem
                     href="/progress"
@@ -63,7 +63,7 @@ const NavItem = ({ href, icon, label, isAction = false, actionCallback }) => {
             >
                 <div
                     onClick={actionCallback}
-                    className="py-2 text-xl transition-all text-gray-100 hover:text-gray-300"
+                    className="py-3 text-xl transition-all text-gray-100 hover:text-gray-300 cursor-pointer"
                 >
                     <i className={`fa ${icon}`} aria-hidden="true"></i>
                 </div>
