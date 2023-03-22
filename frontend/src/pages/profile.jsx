@@ -6,47 +6,49 @@ import Header from "../components/Header";
 
 export default function Profile() {
     const { token } = useAuth();
-    const [profileData, setProfileData] = useState(null);
+    const [user, setUser] = useState();
 
     useEffect(() => {
-        axios({
-            method: "GET",
-            url: "/api/profile",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-        })
-            .then((response) => {
-                const res = response.data;
-                setProfileData({
-                    profile_name: res.name,
-                    about_me: res.about,
-                });
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }
-            });
+        getUser(setUser, token);
     }, []);
 
     return (
         <div>
             <HeadMetadata title="Profile" />
             <Header title="Profile" showProfile={false}></Header>
-            {profileData && (
-                <div className="p-4">
+            {user && (
+                <div className="p-8">
+                    <h1 className="font-bold text-2xl"></h1>
                     <p>
-                        <strong>Profile name: &nbsp;</strong>
-                        {profileData.profile_name}
+                        Name: {user.firstName} {user.lastName}
                     </p>
-                    <p>
-                        <strong>About me: &nbsp;</strong> {profileData.about_me}
-                    </p>
+                    <p>Email: {user.email}</p>
+                    <p>Sex: {user.sex}</p>
+                    <p>Age: {user.age}</p>
                 </div>
             )}
         </div>
     );
+}
+
+function getUser(setUser, token) {
+    axios({
+        method: "GET",
+        url: "/api/user",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    })
+        .then((response) => {
+            const res = response.data;
+            setUser(res);
+            console.log(user);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            }
+        });
 }
