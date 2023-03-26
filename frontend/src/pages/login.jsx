@@ -2,6 +2,7 @@ import { useAuth } from "../hooks/useAuth";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { apiBaseURL } from "../constants";
 
 const Login = () => {
     const { token, setToken } = useAuth();
@@ -21,7 +22,7 @@ const Login = () => {
     function login(event) {
         axios({
             method: "POST",
-            url: "/api/token",
+            url: apiBaseURL + "/api/token",
             data: {
                 email: loginForm.email,
                 password: loginForm.password,

@@ -6,6 +6,7 @@ import DateNav from "../components/DateNav";
 import FoodLog from "../components/FoodLog";
 import { testNutrients, testRDI } from "../testdata";
 import NutrientProgress from "../components/NutrientProgress";
+import { apiBaseURL } from "../constants";
 
 export default function Dashboard() {
     const { token } = useAuth();
@@ -15,7 +16,7 @@ export default function Dashboard() {
     useEffect(() => {
         axios({
             method: "GET",
-            url: "/api/user",
+            url: apiBaseURL + "/api/user",
             headers: {
                 Authorization: "Bearer " + token,
             },
