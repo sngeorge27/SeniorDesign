@@ -1,0 +1,370 @@
+[
+  {
+    "name": "Protein",
+    "unitName": "g",
+    "id": 203,
+    "category": "macros"
+  },
+  {
+    "name": "Total fat",
+    "unitName": "g",
+    "id": 204,
+    "category": "macros"
+  },
+  {
+    "name": "Carbohydrate",
+    "unitName": "g",
+    "id": 205,
+    "category": "macros"
+  },
+  {
+    "name": "Calories",
+    "unitName": "cal",
+    "id": 208,
+    "category": "other"
+  },
+  {
+    "name": "Alcohol, ethyl",
+    "unitName": "g",
+    "id": 221,
+    "category": "other"
+  },
+  {
+    "name": "Water",
+    "unitName": "g",
+    "id": 255,
+    "category": "other"
+  },
+  {
+    "name": "Caffeine",
+    "unitName": "mg",
+    "id": 262,
+    "category": "other"
+  },
+  {
+    "name": "Theobromine",
+    "unitName": "mg",
+    "id": 263,
+    "category": "other"
+  },
+  {
+    "name": "Sugars",
+    "unitName": "g",
+    "id": 269,
+    "category": "carbohydrates"
+  },
+  {
+    "name": "Fiber",
+    "unitName": "g",
+    "id": 291,
+    "category": "carbohydrates"
+  },
+  {
+    "name": "Calcium, Ca",
+    "unitName": "mg",
+    "id": 301,
+    "category": "minerals"
+  },
+  {
+    "name": "Iron, Fe",
+    "unitName": "mg",
+    "id": 303,
+    "category": "minerals"
+  },
+  {
+    "name": "Magnesium, Mg",
+    "unitName": "mg",
+    "id": 304,
+    "category": "minerals"
+  },
+  {
+    "name": "Phosphorus, P",
+    "unitName": "mg",
+    "id": 305,
+    "category": "minerals"
+  },
+  {
+    "name": "Potassium, K",
+    "unitName": "mg",
+    "id": 306,
+    "category": "minerals"
+  },
+  {
+    "name": "Sodium, Na",
+    "unitName": "mg",
+    "id": 307,
+    "category": "minerals"
+  },
+  {
+    "name": "Zinc, Zn",
+    "unitName": "mg",
+    "id": 309,
+    "category": "minerals"
+  },
+  {
+    "name": "Copper, Cu",
+    "unitName": "mg",
+    "id": 312,
+    "category": "minerals"
+  },
+  {
+    "name": "Selenium, Se",
+    "unitName": "ug",
+    "id": 317,
+    "category": "minerals"
+  },
+  {
+    "name": "Retinol",
+    "unitName": "ug",
+    "id": 319,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin A",
+    "unitName": "ug",
+    "id": 320,
+    "category": "vitamins"
+  },
+  {
+    "name": "Carotene, beta",
+    "unitName": "ug",
+    "id": 321,
+    "category": "vitamins"
+  },
+  {
+    "name": "Carotene, alpha",
+    "unitName": "ug",
+    "id": 322,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin E",
+    "unitName": "mg",
+    "id": 323,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin D",
+    "unitName": "ug",
+    "id": 328,
+    "category": "vitamins"
+  },
+  {
+    "name": "Cryptoxanthin, beta",
+    "unitName": "ug",
+    "id": 334,
+    "category": "vitamins"
+  },
+  {
+    "name": "Lycopene",
+    "unitName": "ug",
+    "id": 337,
+    "category": "vitamins"
+  },
+  {
+    "name": "Lutein + zeaxanthin",
+    "unitName": "ug",
+    "id": 338,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin C",
+    "unitName": "mg",
+    "id": 401,
+    "category": "vitamins"
+  },
+  {
+    "name": "Thiamin",
+    "unitName": "mg",
+    "id": 404,
+    "category": "vitamins"
+  },
+  {
+    "name": "Riboflavin",
+    "unitName": "mg",
+    "id": 405,
+    "category": "vitamins"
+  },
+  {
+    "name": "Niacin",
+    "unitName": "mg",
+    "id": 406,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin B-6",
+    "unitName": "mg",
+    "id": 415,
+    "category": "vitamins"
+  },
+  {
+    "name": "Folate",
+    "unitName": "ug",
+    "id": 417,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin B-12",
+    "unitName": "ug",
+    "id": 418,
+    "category": "vitamins"
+  },
+  {
+    "name": "Choline, total",
+    "unitName": "mg",
+    "id": 421,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin K",
+    "unitName": "ug",
+    "id": 430,
+    "category": "vitamins"
+  },
+  {
+    "name": "Folic acid",
+    "unitName": "ug",
+    "id": 431,
+    "category": "vitamins"
+  },
+  {
+    "name": "Folate, food",
+    "unitName": "ug",
+    "id": 432,
+    "category": "vitamins"
+  },
+  {
+    "name": "Folate, DFE",
+    "unitName": "ug",
+    "id": 435,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin E, added",
+    "unitName": "mg",
+    "id": 573,
+    "category": "vitamins"
+  },
+  {
+    "name": "Vitamin B-12, added",
+    "unitName": "ug",
+    "id": 578,
+    "category": "vitamins"
+  },
+  {
+    "name": "Cholesterol",
+    "unitName": "mg",
+    "id": 601,
+    "category": "sterols"
+  },
+  {
+    "name": "Fatty acids, total saturated",
+    "unitName": "g",
+    "id": 606
+  },
+  {
+    "name": "SFA 4:0",
+    "unitName": "g",
+    "id": 607
+  },
+  {
+    "name": "SFA 6:0",
+    "unitName": "g",
+    "id": 608
+  },
+  {
+    "name": "SFA 8:0",
+    "unitName": "g",
+    "id": 609
+  },
+  {
+    "name": "SFA 10:0",
+    "unitName": "g",
+    "id": 610
+  },
+  {
+    "name": "SFA 12:0",
+    "unitName": "g",
+    "id": 611
+  },
+  {
+    "name": "SFA 14:0",
+    "unitName": "g",
+    "id": 612
+  },
+  {
+    "name": "SFA 16:0",
+    "unitName": "g",
+    "id": 613
+  },
+  {
+    "name": "SFA 18:0",
+    "unitName": "g",
+    "id": 614
+  },
+  {
+    "name": "MUFA 18:1",
+    "unitName": "g",
+    "id": 617
+  },
+  {
+    "name": "PUFA 18:2",
+    "unitName": "g",
+    "id": 618
+  },
+  {
+    "name": "PUFA 18:3",
+    "unitName": "g",
+    "id": 619
+  },
+  {
+    "name": "PUFA 20:4",
+    "unitName": "g",
+    "id": 620
+  },
+  {
+    "name": "PUFA 22:6 n-3 (DHA)",
+    "unitName": "g",
+    "id": 621
+  },
+  {
+    "name": "MUFA 16:1",
+    "unitName": "g",
+    "id": 626
+  },
+  {
+    "name": "PUFA 18:4",
+    "unitName": "g",
+    "id": 627
+  },
+  {
+    "name": "MUFA 20:1",
+    "unitName": "g",
+    "id": 628
+  },
+  {
+    "name": "PUFA 20:5 n-3 (EPA)",
+    "unitName": "g",
+    "id": 629
+  },
+  {
+    "name": "MUFA 22:1",
+    "unitName": "g",
+    "id": 630
+  },
+  {
+    "name": "PUFA 22:5 n-3 (DPA)",
+    "unitName": "g",
+    "id": 631
+  },
+  {
+    "name": "Fatty acids, total monounsaturated",
+    "unitName": "g",
+    "id": 645
+  },
+  {
+    "name": "Fatty acids, total polyunsaturated",
+    "unitName": "g",
+    "id": 646
+  }
+]
