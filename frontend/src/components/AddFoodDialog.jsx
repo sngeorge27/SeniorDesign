@@ -31,7 +31,7 @@ export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
                 <>
                     {/* Background Overlay */}
                     <div
-                        className="inset-0 h-screen w-screen fixed bg-black/60 backdrop-blur-sm"
+                        className="inset-0 h-screen w-screen fixed bg-black/60 backdrop-blur-sm z-5"
                         onClick={() => setIsOpen(false)}
                     ></div>
                     {/* Dialog */}
