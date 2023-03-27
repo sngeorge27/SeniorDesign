@@ -78,7 +78,9 @@ def get_user():
 @app.route('/api/profile')
 @jwt_required()
 def my_profile():
-  response_body = {"name": "Test name", "about": "Test about"}
+  age = request.json.get("age", None)
+  sex = request.json.get("sex", None)
+  response_body = logic_engine.get_intake_profile(age, sex)
 
   return response_body
 
@@ -88,10 +90,27 @@ def my_profile():
 def goals():
   age = request.json.get("age", None)
   sex = request.json.get("sex", None)
+  isPregnant = request.json.get("isPregnant", None)
+  isLactating = request.json.get("isLactating", None)
 
-  test_res = {"age": age, "sex": sex}
+  targets, upper_limits = logic_engine.get_intake_profile(age, sex, isLactating, isPregnant)
 
-  return test_res
+  lines = []
+  for i, n_def in enumerate(nutrient_definitions):
+    if not all([
+        targets[i] is None, upper_limits[i] is None, n_def['id']
+        not in [204, 269]
+    ]):
+      lines.append({
+          **n_def,
+          "RDI":
+          targets[i] if targets[i] is not None else -1,
+          "UL":
+          upper_limits[i] if upper_limits[i] is not None else -1,
+      })
+    #app.logger.info(lines)
+
+  return lines
 
 # EXTENDED API
 @app.route("/api/search", methods=["POST"])
