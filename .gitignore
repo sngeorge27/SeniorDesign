@@ -3,3 +3,6 @@ sdp/data/
 sdp.egg-info/
 *.pyc
 google-cloud-sdk
+
+frontend/node_modules/
+frontend_for_prototyping/node_modules/

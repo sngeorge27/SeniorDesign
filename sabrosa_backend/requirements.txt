@@ -1,0 +1,11 @@
+Flask==2.2.2
+gunicorn==20.0.4
+pymysql==1.0.2
+flask_jwt_extended
+flask_cors
+thefuzz
+transformers
+tqdm
+pandas
+numpy
+gunicorn

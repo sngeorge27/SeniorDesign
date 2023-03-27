@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import Header from "../components/Header";
+import { apiBaseURL } from "../constants";
 
 export default function Profile() {
     const { token } = useAuth();
@@ -34,7 +35,7 @@ export default function Profile() {
 function getUser(setUser, token) {
     axios({
         method: "GET",
-        url: "/api/user",
+        url: apiBaseURL + "/api/user",
         headers: {
             Authorization: "Bearer " + token,
         },

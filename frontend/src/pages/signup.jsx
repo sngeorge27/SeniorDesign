@@ -2,6 +2,7 @@ import { useAuth } from "../hooks/useAuth";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { apiBaseURL } from "../constants";
 
 const SignUp = () => {
     const { token, setToken } = useAuth();
@@ -31,7 +32,7 @@ const SignUp = () => {
 
         axios({
             method: "POST",
-            url: "/api/signup",
+            url: apiBaseURL + "/api/signup",
             data: {
                 firstName: signupForm.firstName,
                 lastName: signupForm.lastName,

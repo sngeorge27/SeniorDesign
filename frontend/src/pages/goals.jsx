@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
+import { apiBaseURL } from "../constants";
 
 export default function Goals() {
     const { token } = useAuth();
@@ -18,7 +19,7 @@ export default function Goals() {
 
         axios({
             method: "POST",
-            url: "/api/goals",
+            url: apiBaseURL + "/api/goals",
             headers: {
                 Authorization: "Bearer " + token,
             },
