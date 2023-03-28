@@ -1,4 +1,4 @@
-export default function DateNav({ currentDate, setCurrentDate }) {
+export default function DateNav({ currentDate, handleDateChange }) {
     return (
         <div className="flex flex-col items-center">
             <p className="text-xl font-semibold">
@@ -14,7 +14,7 @@ export default function DateNav({ currentDate, setCurrentDate }) {
             <div className="flex">
                 <DateNavButton
                     onClick={() =>
-                        setCurrentDate(
+                        handleDateChange(
                             new Date(
                                 currentDate.setDate(currentDate.getDate() - 1)
                             )
@@ -24,12 +24,12 @@ export default function DateNav({ currentDate, setCurrentDate }) {
                     <i className="fa fa-chevron-left"></i>
                 </DateNavButton>
 
-                <DateNavButton onClick={() => setCurrentDate(new Date())}>
+                <DateNavButton onClick={() => handleDateChange(new Date())}>
                     <p className="font-semibold">Today</p>
                 </DateNavButton>
                 <DateNavButton
                     onClick={() =>
-                        setCurrentDate(
+                        handleDateChange(
                             new Date(
                                 currentDate.setDate(currentDate.getDate() + 1)
                             )

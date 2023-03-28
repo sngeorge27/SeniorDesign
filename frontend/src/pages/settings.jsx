@@ -3,7 +3,7 @@ import Header from "../components/Header";
 
 export default function Settings() {
     return (
-        <div>
+        <div className="w-full h-full">
             <HeadMetadata title="Settings" />
             <Header title="Settings"></Header>
             <div className="p-4">

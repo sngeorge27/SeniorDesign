@@ -14,7 +14,7 @@ export default function Profile() {
     }, []);
 
     return (
-        <div>
+        <div className="w-full h-full">
             <HeadMetadata title="Profile" />
             <Header title="Profile" showProfile={false}></Header>
             {user && (
