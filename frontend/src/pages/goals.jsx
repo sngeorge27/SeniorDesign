@@ -79,7 +79,7 @@ export default function Goals() {
     }
 
     return (
-        <div className="flex flex-col h-screen overflow-hidden">
+        <div className="flex flex-col w-full h-full">
             <HeadMetadata title="Goals" />
             <Header title="My Goals"></Header>
             <div className="flex flex-col h-full overflow-auto">
@@ -193,16 +193,15 @@ const NutrientGroups = ({ groupArr }) => {
                         <div key={i} className="flex w-full justify-between">
                             <p className="font-bold">{rdi.name}</p>
                             <div className="flex">
-                                <p>{`(min: ${
+                                <p>{`${
                                     rdi.RDI != -1
                                         ? `${rdi.RDI} ${rdi.unitName}`
-                                        : "-"
-                                })`}</p>
-                                <p>{`(max: ${
+                                        : `0 ${rdi.unitName}`
+                                } ${
                                     rdi.UL != -1
-                                        ? `${rdi.UL} ${rdi.unitName}`
-                                        : "-"
-                                })`}</p>
+                                        ? ` (max: ${rdi.UL} ${rdi.unitName}`
+                                        : ""
+                                }`}</p>
                             </div>
                         </div>
                     );

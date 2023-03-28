@@ -1,10 +1,8 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
 import HeadMetadata from "../components/HeadMetadata";
 import Nav from "../components/Nav";
 import { useAuth } from "../hooks/useAuth";
 import { Navigate, useLocation } from "react-router-dom";
-// ...
 
 export const ProtectedLayout = () => {
     const { token } = useAuth();
@@ -19,11 +17,9 @@ export const ProtectedLayout = () => {
     return (
         <div>
             <HeadMetadata title="Sabrosa Health" />
-            <div className="flex h-screen w-full bg-gray-200">
+            <div className="flex h-screen max-h-screen w-full bg-gray-200">
                 <Nav />
-                <div className="flex flex-col w-full h-full">
-                    <Outlet />
-                </div>
+                <Outlet />
             </div>
         </div>
     );

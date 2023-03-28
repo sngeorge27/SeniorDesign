@@ -127,7 +127,7 @@ def recommend():
 # todo: get progress
 
 @app.route("/api/get_food", methods=["POST"])
-def get_food():
+def get_food_nutrients():
   # get nutrients for food, according to n_def schema
   food_index = [i for i, fdc_id in enumerate(food_df['fdc_id'].tolist()) if fdc_id==request.json['fdc_id']][0]
   nutrient_amounts = master_food_nutrient_amounts[food_index]

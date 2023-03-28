@@ -32,7 +32,7 @@ export default function Progress() {
     }, [query]);
 
     return (
-        <div>
+        <div className=" w-full h-full">
             <HeadMetadata title="Progress" />
             <Header title="Progress"></Header>
             <div className="w-full h-full grid grid-cols-2 p-4">
