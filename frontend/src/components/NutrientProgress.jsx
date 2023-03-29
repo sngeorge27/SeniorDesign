@@ -1,4 +1,11 @@
-export default function NutrientProgress({ name, value, min, max }) {
+export default function NutrientProgress({
+    name,
+    value,
+    min,
+    max,
+    unit,
+    showRanges,
+}) {
     let percentageValue = 0;
     if (min) {
         percentageValue = clamp((value / min) * 100, 0, 100);
@@ -15,11 +22,18 @@ export default function NutrientProgress({ name, value, min, max }) {
 
     return (
         <div className="flex flex-col p-2">
-            <div className="flex items-center">
-                <label className="pl-1 leading-6">
-                    {name} - ({value}g) {min ? ` - {min: ${min}}` : ""}
-                    {max ? ` - {max: ${max}}` : ""}
-                </label>
+            <div className="flex items-center pl-1 leading-6 justify-between">
+                <div className="flex">
+                    <p className="font-semibold">{name}&nbsp;</p>
+                    <p>{`- (${value && value.toFixed(2)} ${unit})`}</p>
+                </div>
+                {showRanges && (
+                    <p>
+                        {` Range: ${min ? ` {min: ${min}}` : ""} ${
+                            max ? ` {max: ${max}}` : ""
+                        }`}
+                    </p>
+                )}
             </div>
 
             <ProgressBar value={percentageValue} color={color}></ProgressBar>
