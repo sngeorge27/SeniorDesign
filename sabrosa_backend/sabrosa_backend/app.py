@@ -62,7 +62,6 @@ def create_user():
 
 
 @app.route('/api/user')
-@jwt_required()
 def get_user():
   response_body = {
       "firstName": "Test",
@@ -76,7 +75,6 @@ def get_user():
 
 
 @app.route('/api/profile')
-@jwt_required()
 def my_profile():
   age = request.json.get("age", None)
   sex = request.json.get("sex", None)
@@ -86,21 +84,20 @@ def my_profile():
 
 
 @app.route("/api/goals", methods=["POST"])
-@jwt_required()
 def goals():
-  age = request.json.get("age", None)
-  sex = request.json.get("sex", None)
+  age = request.json.get("age", 25)
+  sex = request.json.get("sex", "M")
   isPregnant = request.json.get("isPregnant", None)
   isLactating = request.json.get("isLactating", None)
+  macroRatio = request.json.get("macroRatio", None)
+  heightInches = request.json.get("heightInches", None)
+  weightPounds = request.json.get("weightPounds", None)
 
-  targets, upper_limits = logic_engine.get_intake_profile(age, sex, isLactating, isPregnant)
+  targets, upper_limits = logic_engine.get_intake_profile(age, sex, isLactating, isPregnant, macroRatio, heightInches, weightPounds)
 
   lines = []
   for i, n_def in enumerate(nutrient_definitions):
-    if not all([
-        targets[i] is None, upper_limits[i] is None, n_def['id']
-        not in [204, 269]
-    ]):
+    if not (targets[i] is None and upper_limits[i] is None):
       lines.append({
           **n_def,
           "RDI":
@@ -108,8 +105,8 @@ def goals():
           "UL":
           upper_limits[i] if upper_limits[i] is not None else -1,
       })
-    #app.logger.info(lines)
 
+  app.logger.info(lines)
   return lines
 
 # EXTENDED API
@@ -122,9 +119,18 @@ def search():
 
 @app.route("/api/recommend", methods=["POST"])
 def recommend():
-  pass
-
-# todo: get progress
+  age = request.json.get("age", 25)
+  sex = request.json.get("sex", "M")
+  isPregnant = request.json.get("isPregnant", None)
+  isLactating = request.json.get("isLactating", None)
+  macroRatio = request.json.get("macroRatio", None)
+  heightInches = request.json.get("heightInches", None)
+  weightPounds = request.json.get("weightPounds", None)
+  foodLog = request.json.get("foodLog", [])
+  targets, upper_limits = logic_engine.get_intake_profile(age, sex, isLactating, isPregnant, macroRatio, heightInches, weightPounds)
+  meal_nutrient_amounts = logic_engine.get_food_log_nutrient_amounts(foodLog)
+  top_foods = logic_engine.recommend(meal_nutrient_amounts, targets, upper_limits)
+  return jsonify(top_foods)
 
 @app.route("/api/get_food", methods=["POST"])
 def get_food_nutrients():

@@ -62,79 +62,22 @@ for b_i in tqdm(range(len(index_strings) // 32 + 1)):
 search_index = np.concatenate(embeds, axis=0)
 
 
-class Food:
-  def __init__(self, fdc_id, amount, name, nutrients):
-    self.fdc_id = fdc_id
-    self.amount = amount
-    self.name = name
-    self.nutrients = nutrients
-
-  @staticmethod
-  def from_fdc_id(fdc_id, amount: float):
-    relevant_food = food[food['fdc_id'] == fdc_id].iloc[0]
-    # nutrient_rows = nutrient[nutrient['fdc_id'] == fdc_id]
-    nutrient_rows = food_nutrients_map[fdc_id]
-    nutrient_objects = []
-    for i, n_def in enumerate(nutrient_definitions):
-      relevant_nutrient = nutrient_rows.iloc[i]
-      assert relevant_nutrient['nutrient_id'] == n_def['id']
-      nutrient_objects.append({
-          'name':
-          n_def['name'],
-          'amount':
-          relevant_nutrient['amount_per_100g'] / 100 * amount,
-          'id':
-          n_def['id'],
-          'unit':
-          n_def['unitName']
-      })
-    return Food(fdc_id,
-                amount=amount,
-                name=relevant_food['name'],
-                nutrients=nutrient_objects)
-
-  def macro_ratio(self):
-    water = [n for n in self.nutrients if n['id'] == 255][0]['amount_per_100g']
-    protein = [n for n in self.nutrients
-               if n['id'] == 203][0]['amount_per_100g']
-    fat = [n for n in self.nutrients if n['id'] == 204][0]['amount_per_100g']
-    carb = [n for n in self.nutrients if n['id'] == 205][0]['amount_per_100g']
-    plt.pie([water, protein, fat, carb],
-            labels=["water", "protein", "fat", "carb"],
-            autopct='%1.1f%%')
-
-  def __repr__(self):
-    return f"{self.amount}g of {self.name}"
-
-
-class Meal:
-  def __init__(self, foods: List[Food]):
-    self.foods = foods
-
-  def compute_nutrients(self):
-    combined_nutrients = []
-    for food_ in self.foods:
-      for nutrient_ in food_.nutrients:
-        added = False
-        for combined_nutrient in combined_nutrients:
-          if combined_nutrient['id'] == nutrient_['id']:
-            combined_nutrient['amount'] += nutrient_['amount']
-            added = True
-        if not added:
-          combined_nutrients.append(copy.deepcopy(nutrient_))
-    combined_nutrients = [{
-        **n, 'amount': round(n['amount'], 2)
-    } for n in combined_nutrients]
-    return combined_nutrients
-
-  def __repr__(self):
-    return "\n".join([str(food) for food in self.foods])
-
+def get_food_log_nutrient_amounts(food_log):
+  if len(food_log) == 0:
+    return np.zeros(master_food_nutrient_amounts.shape[1])
+  entry = food_log[0]
+  nutrient_amounts = master_food_nutrient_amounts[use_fdc_ids.index(entry['fdc_id'])] * entry['amount']
+  for entry in food_log[1:]:
+    nutrient_amounts += master_food_nutrient_amounts[use_fdc_ids.index(entry['fdc_id'])] * entry['amount']
+  return nutrient_amounts
 
 def get_intake_profile(age: float,
                        sex: str,
                        is_lactating=False,
-                       is_pregnant=False):
+                       is_pregnant=False,
+                       macro_ratio="maintain",
+                       height_inches=68,
+                       weight_pounds=150):
   def inner():
     assert sex in ["M", "F"]
     if is_lactating or is_pregnant:
@@ -157,6 +100,41 @@ def get_intake_profile(age: float,
         if sex == "F" and not is_lactating and not is_pregnant and entry[
             'profile']['lifeStageGroup'] in ['infant', 'child', 'female']:
           return entry
+
+  macro_ratios = {
+      "maintain": {
+          "carb": 50,
+          "fat": 30,
+          "protein": 20
+      },
+      "loss": {
+          "carb": 40,
+          "protein": 30,
+          "fat": 30
+      },
+      "gain": {
+          "protein": 25,
+          "carb": 50,
+          "fat": 25
+      },
+      "keto": {
+          "carb": 5,
+          "protein": 30,
+          "fat": 65
+      }
+  }
+  calories = None
+  if sex == "M":
+    calories = 66 + (6.23 * weight_pounds) + (12.7 * height_inches) - (6.8 *
+                                                                       age)
+  else:
+    calories = 655 + (4.35 * weight_pounds) + (4.7 * height_inches) - (4.7 *
+                                                                       age)
+
+  macro_amounts = {
+      k: round(((v / 100) * calories) / (9 if k == "fat" else 4))
+      for k, v in macro_ratios[macro_ratio].items()
+  }
 
   entry = inner()
   if entry is not None:
@@ -186,18 +164,20 @@ def get_intake_profile(age: float,
       rdi_counted = False
       ul_counted = False
       if n_def['id'] == 208:
-        target_amounts.append(2000)
-        upper_limit_amounts.append(3000)
+        target_amounts.append(round(calories))
+        upper_limit_amounts.append(round(calories * 1.1))
       else:
         for rdi in rdis:
           if rdi['id'] == n_def['id']:
             if rdi['id'] == 255:
               target_amounts.append(rdi['value'] * 1000)
+              rdi_counted = True
             elif rdi['id'] == 312:
               target_amounts.append(rdi['value'] / 1000)
-            else:
+              rdi_counted = True
+            elif rdi['id'] not in [203, 204, 205]:
               target_amounts.append(rdi['value'])
-            rdi_counted = True
+              rdi_counted = True
         for ul in uls:
           if ul['id'] == n_def['id']:
             if ul['id'] == 255:
@@ -208,9 +188,15 @@ def get_intake_profile(age: float,
               upper_limit_amounts.append(ul['value'])
             ul_counted = True
         if not rdi_counted:
-          target_amounts.append(None)
+          if n_def['id'] == 203:
+            target_amounts.append(macro_amounts['protein'])
+          elif n_def['id'] == 204:
+            target_amounts.append(macro_amounts['fat'])
+          elif n_def['id'] == 205:
+            target_amounts.append(macro_amounts['carb'])
+          else:
+            target_amounts.append(None)
         if not ul_counted:
-          print(n_def['name'])
           upper_limit_amounts.append(None)
     return np.array(target_amounts), np.array(upper_limit_amounts)
 
@@ -237,11 +223,12 @@ def visualize_profile(target_amounts, upper_limit_amounts):
 def ratios_to_score(ratios):
   return np.where(ratios > 1, 1, ratios).sum(axis=-1)
 
+
 def recommend(meal_nutrient_amounts,
               target_amounts,
               upper_limit_amounts,
               top_k=3,
-              amount_to_recommend=100):
+              serving_size_to_recommend=100):
   target_amounts_placeholder = np.where(target_amounts == None, 0,
                                         target_amounts)
   upper_limits_placeholder = np.where(upper_limit_amounts == None, np.inf,
@@ -254,7 +241,7 @@ def recommend(meal_nutrient_amounts,
       (upper_limits_placeholder - target_amounts_placeholder))
   candidate_nutrient_matrices = (
       meal_nutrient_amounts +
-      (master_food_nutrient_amounts * amount_to_recommend / 100))
+      (master_food_nutrient_amounts * serving_size_to_recommend / 100))
   ratios = np.where(
       candidate_nutrient_matrices < target_amounts_placeholder[np.newaxis],
       candidate_nutrient_matrices /
@@ -266,7 +253,7 @@ def recommend(meal_nutrient_amounts,
   ratios = ratios**2
   food_scores = ratios.sum(axis=-1)
   top_foods = np.argsort(food_scores)[::-1][:top_k]
-  return food_df.iloc[top_foods]
+  return food_df.iloc[top_foods].to_dict('records')
 
 
 def search(query, vegetarian=False, num_results=16):

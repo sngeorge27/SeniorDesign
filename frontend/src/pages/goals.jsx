@@ -14,46 +14,45 @@ export default function Goals() {
         sex: "M",
         isPregnant: false,
         isLactating: false,
+        macroRatio: "maintain",
+        weight: 180,
+        heightFeet: 5,
+        heightInches: 6
     });
 
-    function getRDIValues(event) {
-        console.log(infoForm);
+    useEffect(() => {
+      console.log(infoForm);
+  
+      axios({
+          method: "POST",
+          url: apiBaseURL + "/api/goals",
+          headers: {
+              Authorization: "Bearer " + token,
+          },
+          data: {
+              age: parseFloat(infoForm.age),
+              sex: infoForm.sex,
+              isPregnant: infoForm.isPregnant,
+              isLactating: infoForm.isLactating,
+              macroRatio: infoForm.macroRatio,
+              heightInches: parseFloat(infoForm.heightFeet) * 12 + parseFloat(infoForm.heightInches),
+              weightPounds: parseFloat(infoForm.weight)
+          },
+      })
+          .then((response) => {
+              const rdiValues = response.data;
+              console.log(rdiValues);
+              setRDIs(groupByCategory(rdiValues));
+              console.log(groupByCategory(rdiValues));
+              testIteration(groupByCategory(rdiValues));
+          })
+          .catch((error) => {
+              if (error) {
+                  console.log(error);
+              }
+          });
 
-        axios({
-            method: "POST",
-            url: apiBaseURL + "/api/goals",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-            data: {
-                age: parseFloat(infoForm.age),
-                sex: infoForm.sex,
-                isPregnant: infoForm.isPregnant,
-                isLactating: infoForm.isLactating,
-            },
-        })
-            .then((response) => {
-                const rdiValues = response.data;
-                console.log(rdiValues);
-                setRDIs(groupByCategory(rdiValues));
-                console.log(groupByCategory(rdiValues));
-                testIteration(groupByCategory(rdiValues));
-            })
-            .catch((error) => {
-                if (error) {
-                    console.log(error);
-                }
-            });
-
-        // setInfoForm({
-        //     age: "",
-        //     sex: "",
-        //     isPregnant: false,
-        //     isLactating: false,
-        // });
-
-        event.preventDefault();
-    }
+    }, [infoForm])
 
     function handleChange(event) {
         const { value, name, checked } = event.target;
@@ -83,9 +82,26 @@ export default function Goals() {
             <HeadMetadata title="Goals" />
             <Header title="My Goals"></Header>
             <div className="flex flex-col h-full overflow-auto">
-                <div className="flex flex-col w-[400px] mx-auto">
-                    <h1 className="text-2xl font-semibold">Get RDI Test:</h1>
-                    <form className="grid grid-cols-2 gap-1">
+                <div className="flex flex-col w-[720px] mx-auto">
+                    <form className="grid grid-cols-3 gap-1">
+                    <div className="m-2 flex flex-col ">
+                            <label className="leading-8" htmlFor="lastName">
+                                Macro goal
+                            </label>
+                            <select
+                                className="p-2 bg-gray-100 rounded-md shadow w-full"
+                                onChange={handleChange}
+                                text={infoForm.macroRatio}
+                                name="macroRatio"
+                                value={infoForm.macroRatio}
+                                required
+                            >
+                                <option value="maintain">Maintenance</option>
+                                <option value="loss">Weight loss</option>
+                                <option value="gain">Muscle gain</option>
+                                <option value="keto">Keto</option>
+                            </select>
+                        </div>
                         <div className="m-2 flex flex-col ">
                             <label className="leading-8" htmlFor="firstName">
                                 Age
@@ -117,6 +133,49 @@ export default function Goals() {
                                 <option value="F">Female</option>
                             </select>
                         </div>
+                        <div className="m-2 flex flex-col ">
+                            <label className="leading-8" htmlFor="firstName">
+                                Weight (lbs)
+                            </label>
+                            <input
+                                className="p-2 bg-gray-100 rounded-md shadow"
+                                onChange={handleChange}
+                                type="number"
+                                text={infoForm.weight}
+                                name="weight"
+                                value={infoForm.weight}
+                                required
+                            />
+                        </div>
+                        <div className="m-2 flex flex-col ">
+                            <label className="leading-8" htmlFor="firstName">
+                                Height (feet)
+                            </label>
+                            <input
+                                className="p-2 bg-gray-100 rounded-md shadow"
+                                onChange={handleChange}
+                                type="number"
+                                text={infoForm.heightFeet}
+                                name="heightFeet"
+                                value={infoForm.heightFeet}
+                                required
+                            />
+                        </div>
+                        <div className="m-2 flex flex-col ">
+                            <label className="leading-8" htmlFor="firstName">
+                                Height (inches)
+                            </label>
+                            <input
+                                className="p-2 bg-gray-100 rounded-md shadow"
+                                onChange={handleChange}
+                                type="number"
+                                text={infoForm.heightInches}
+                                name="heightInches"
+                                value={infoForm.heightInches}
+                                required
+                            />
+                        </div>
+                        
                         {infoForm.sex == "F" && (
                             <div className="p-2 flex">
                                 <input
@@ -152,12 +211,6 @@ export default function Goals() {
                             </div>
                         )}
                     </form>
-                    <button
-                        className="font-semibold rounded-md self-end p-2 m-2 text-white bg-cyan-500 hover:bg-cyan-600"
-                        onClick={getRDIValues}
-                    >
-                        Get RDI
-                    </button>
                 </div>
                 {RDIs ? (
                     <div className="grid grid-cols-2 gap-4 p-4 h-full w-full overflow-auto">
@@ -187,19 +240,26 @@ const NutrientGroups = ({ groupArr }) => {
                     {groupName.slice(1)}
                 </p>
             </div>
-            <div className="flex flex-col p-2">
+            <div className="fle flex-col p-2">
+              <div className="flex font-bold border-b-2 mb-2 border-cyan-600">
+                <p className="flex-1">Nutrient</p>
+                <div className="flex-1 flex">
+                  <p className="flex-1 text-right">RDI</p>
+                  <p className="flex-1 text-right">Upper limit</p>
+                </div>
+              </div>
                 {nutrientRDIs.map((rdi, i) => {
                     return (
                         <div key={i} className="flex w-full justify-between">
-                            <p className="font-bold">{rdi.name}</p>
-                            <div className="flex">
-                                <p>{`${
+                            <p className="flex-1 font-bold">{rdi.name}</p>
+                            <div className="flex-1 flex">
+                                <p className="flex-1 text-right">{`${
                                     rdi.RDI != -1
                                         ? `${rdi.RDI} ${rdi.unitName}`
                                         : `0 ${rdi.unitName}`
-                                } ${
+                                }`}</p><p className="flex-1 text-right">{`${
                                     rdi.UL != -1
-                                        ? ` (max: ${rdi.UL} ${rdi.unitName}`
+                                        ? `${rdi.UL} ${rdi.unitName}`
                                         : ""
                                 }`}</p>
                             </div>
