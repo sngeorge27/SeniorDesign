@@ -1,21 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-    Route,
-    createBrowserRouter,
-    createRoutesFromElements,
-    defer,
-    RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./styles/index.css";
 import { AuthLayout } from "./components/AuthLayout";
 import Goals from "./pages/goals";
 import ErrorPage from "./pages/error";
 import { HelmetProvider } from "react-helmet-async";
-import Progress from "./pages/progress";
 import Track from "./pages/track";
 import Profile from "./pages/profile";
-import Settings from "./pages/settings";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
 import { ProtectedLayout } from "./components/ProtectedLayout";
@@ -37,20 +29,12 @@ const router = createBrowserRouter([
                         element: <Goals />,
                     },
                     {
-                        path: "/progress",
-                        element: <Progress />,
-                    },
-                    {
                         path: "/track",
                         element: <Track />,
                     },
                     {
                         path: "/profile",
                         element: <Profile />,
-                    },
-                    {
-                        path: "/settings",
-                        element: <Settings />,
                     },
                 ],
             },

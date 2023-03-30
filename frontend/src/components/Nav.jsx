@@ -30,16 +30,10 @@ export default function Nav() {
             <div className="flex flex-col items-center">
                 <NavItem href="/" icon="fa-house" label="Dashboard" />
                 <NavItem href="/goals" icon="fa-bullseye" label="Goals" />
-                <NavItem
-                    href="/progress"
-                    icon="fa-pie-chart"
-                    label="Progress"
-                />
                 <NavItem href="/track" icon="fa-pencil-square" label="Track" />
                 <NavItem href="/profile" icon="fa-user" label="Profile" />
             </div>
             <div className="flex flex-col items-center">
-                <NavItem href="/settings" icon="fa-cog" label="Settings" />
                 <NavItem
                     icon="fa-sign-out"
                     label="Logout"

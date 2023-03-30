@@ -1,6 +1,5 @@
 import { useState } from "react";
 import AddFoodDialog from "../components/AddFoodDialog";
-import { testFood } from "../testdata";
 
 export default function FoodLog({
     currentDate,
@@ -22,6 +21,12 @@ export default function FoodLog({
 
     return (
         <div className="p-2 mx-auto w-full md:max-w-lg flex flex-col items-center rounded-lg bg-gray-100 shadow-md h-full min-h-0">
+            <AddFoodDialog
+                isOpen={isDialogOpen}
+                setIsOpen={setIsDialogOpen}
+                addCallback={logFood}
+                token={token}
+            />
             <div className="flex justify-between w-full p-2 items-center border-b border-gray-200">
                 <h1 className="font-semibold text-xl">Food Log</h1>
                 <button
@@ -32,12 +37,6 @@ export default function FoodLog({
                 >
                     + Add Food
                 </button>
-                <AddFoodDialog
-                    isOpen={isDialogOpen}
-                    setIsOpen={setIsDialogOpen}
-                    addCallback={logFood}
-                    token={token}
-                />
             </div>
             <div className="flex flex-col w-full overflow-auto h-full min-h-0">
                 {filteredFoods && filteredFoods.length > 0 ? (
@@ -45,29 +44,27 @@ export default function FoodLog({
                         return (
                             <div
                                 key={i}
-                                className={`flex justify-between items-center p-2 border-b border-gray-200 rounded-lg cursor-pointer hover:bg-gray-200 ${
+                                className={`flex justify-between items-center border-b border-gray-200 rounded-lg cursor-pointer hover:bg-gray-200 ${
                                     selectedFood &&
                                     selectedFood.id == loggedFood.id
                                         ? "shadow-lg border border-gray-400"
                                         : "last:border-b-0"
                                 }`}
-                                onClick={() => {
-                                    console.log(
-                                        "on div item click",
-                                        selectedFood
-                                    );
-                                    if (
-                                        selectedFood &&
-                                        selectedFood.id == loggedFood.id
-                                    ) {
-                                        setSelectedFood(null);
-                                    } else {
-                                        setSelectedFood(loggedFood);
-                                    }
-                                }}
                             >
                                 {loggedFood.food && (
-                                    <p>
+                                    <button
+                                        className="w-full text-left p-2"
+                                        onClick={() => {
+                                            if (
+                                                selectedFood &&
+                                                selectedFood.id == loggedFood.id
+                                            ) {
+                                                setSelectedFood(null);
+                                            } else {
+                                                setSelectedFood(loggedFood);
+                                            }
+                                        }}
+                                    >
                                         {`${
                                             loggedFood.food.shortened_name
                                                 ? loggedFood.food.shortened_name
@@ -77,22 +74,12 @@ export default function FoodLog({
                                                 ? loggedFood.food.emojis
                                                 : ""
                                         } - (${loggedFood.amount} g)`}
-                                    </p>
+                                    </button>
                                 )}
 
-                                <div className="flex items-center">
-                                    {/* <button
-                                            className="m-1 hover:text-cyan-600 rounded-full text-center"
-                                            onClick={() =>
-                                                console.log(
-                                                    `edit food with id: ${loggedFood.id}`
-                                                )
-                                            }
-                                        >
-                                            <i className="fa fa-pen-to-square text-sm"></i>
-                                        </button> */}
+                                <div className="flex items-center hover:text-red-600 rounded-full">
                                     <button
-                                        className="m-1 hover:text-red-600 rounded-full text-center"
+                                        className="m-1 p-1 text-center"
                                         onClick={() =>
                                             deleteFood(loggedFood.id)
                                         }
