@@ -25,7 +25,6 @@ const SignUp = () => {
         const existingUser = JSON.parse(
             localStorage.getItem(signupForm.username)
         );
-        console.log("existing user", existingUser);
 
         if (signupForm.password !== signupForm.confirmPassword) {
             setErrorMessage("Passwords must match");
@@ -71,8 +70,6 @@ const SignUp = () => {
                 password: "",
                 confirmPassword: "",
             });
-
-            console.log(localStorage.getItem(`${signupForm.username}`));
         }
 
         event.preventDefault();
@@ -114,7 +111,7 @@ const SignUp = () => {
                         <div className="flex">
                             <div className="m-2 flex flex-col w-full">
                                 <label
-                                    className="leading-8"
+                                    className="leading-8 font-semibold"
                                     htmlFor="firstName"
                                 >
                                     First Name
@@ -130,7 +127,10 @@ const SignUp = () => {
                                 />
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label className="leading-8" htmlFor="lastName">
+                                <label
+                                    className="leading-8 font-semibold"
+                                    htmlFor="lastName"
+                                >
                                     Last Name
                                 </label>
                                 <input
@@ -147,7 +147,7 @@ const SignUp = () => {
                         <div className="flex">
                             <div className="m-2 flex flex-col w-full">
                                 <label
-                                    className="leading-8"
+                                    className="leading-8 font-semibold"
                                     htmlFor="macroRatio"
                                 >
                                     Macro Goal
@@ -169,7 +169,10 @@ const SignUp = () => {
                                 </select>
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label className="leading-8" htmlFor="sex">
+                                <label
+                                    className="leading-8 font-semibold"
+                                    htmlFor="sex"
+                                >
                                     Sex
                                 </label>
                                 <select
@@ -242,7 +245,10 @@ const SignUp = () => {
                         )}
                         <div className="flex">
                             <div className="m-2 flex flex-col">
-                                <label className="leading-8" htmlFor="age">
+                                <label
+                                    className="leading-8 font-semibold"
+                                    htmlFor="age"
+                                >
                                     Age
                                 </label>
                                 <input
@@ -256,7 +262,10 @@ const SignUp = () => {
                                 />
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label className="leading-8" htmlFor="height">
+                                <label
+                                    className="leading-8 font-semibold"
+                                    htmlFor="height"
+                                >
                                     Height (in)
                                 </label>
                                 <input
@@ -270,7 +279,10 @@ const SignUp = () => {
                                 />
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label className="leading-8" htmlFor="weight">
+                                <label
+                                    className="leading-8 font-semibold"
+                                    htmlFor="weight"
+                                >
                                     Weight (lbs)
                                 </label>
                                 <input
@@ -285,7 +297,10 @@ const SignUp = () => {
                             </div>
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label className="leading-8" htmlFor="username">
+                            <label
+                                className="leading-8 font-semibold"
+                                htmlFor="username"
+                            >
                                 Username
                             </label>
                             <input
@@ -299,7 +314,10 @@ const SignUp = () => {
                             />
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label className="leading-8" htmlFor="password">
+                            <label
+                                className="leading-8 font-semibold"
+                                htmlFor="password"
+                            >
                                 Password
                             </label>
                             <input
@@ -314,7 +332,7 @@ const SignUp = () => {
                         </div>
                         <div className="m-2 flex flex-col">
                             <label
-                                className="leading-8"
+                                className="leading-8 font-semibold"
                                 htmlFor="confirmPassword"
                             >
                                 Confirm Password

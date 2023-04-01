@@ -21,7 +21,6 @@ export default function Track() {
     }
 
     function logFood(food, amount) {
-        console.log(food, amount);
         const newFood = {
             id: food.fdc_id,
             date: new Date(currentDate),
@@ -41,7 +40,7 @@ export default function Track() {
         setSelectedFood(null);
     }
 
-    function calculateNutrientValues() {
+    function calculateNutrientValues(currentNutrientValues) {
         const filteredFoods = user.loggedFood.filter((food) => {
             const foodDate = new Date(food.date);
             return (
@@ -51,7 +50,7 @@ export default function Track() {
             );
         });
 
-        let newNutrientValues = nutrientValues.map((nutrientValue) => {
+        let newNutrientValues = currentNutrientValues.map((nutrientValue) => {
             return { ...nutrientValue, amount: 0 };
         });
 
@@ -102,7 +101,7 @@ export default function Track() {
     }
 
     useEffect(() => {
-        calculateNutrientValues();
+        calculateNutrientValues(nutrientValues);
     }, [user, currentDate, selectedFood]);
 
     useEffect(() => {
@@ -136,15 +135,13 @@ export default function Track() {
                     };
                     initialNutrientValues.push(newNutrientValue);
                 });
-                setNutrientValues(initialNutrientValues);
+                calculateNutrientValues(initialNutrientValues);
             })
             .catch((error) => {
                 if (error) {
                     console.log(error);
                 }
             });
-
-        calculateNutrientValues();
     }, []);
 
     return (

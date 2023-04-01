@@ -55,7 +55,10 @@ const Login = () => {
                     </h2>
                     <form className="p-2 flex flex-col">
                         <div className="m-2 flex flex-col">
-                            <label className="leading-8" htmlFor="username">
+                            <label
+                                className="leading-8 font-semibold"
+                                htmlFor="username"
+                            >
                                 Username
                             </label>
                             <input
@@ -69,7 +72,10 @@ const Login = () => {
                             />
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label className="leading-8" htmlFor="password">
+                            <label
+                                className="leading-8 font-semibold"
+                                htmlFor="password"
+                            >
                                 Password
                             </label>
                             <input

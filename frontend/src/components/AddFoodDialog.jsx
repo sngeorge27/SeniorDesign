@@ -2,12 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiBaseURL } from "../constants";
 
-export default function AddFoodDialog({
-    isOpen,
-    setIsOpen,
-    token,
-    addCallback,
-}) {
+export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
     const [selectedFood, setSelectedFood] = useState(null);
     const [query, setQuery] = useState("");
     const [foodAmount, setFoodAmount] = useState("");
@@ -25,9 +20,6 @@ export default function AddFoodDialog({
         const response = await axios({
             method: "POST",
             url: apiBaseURL + "/api/get_food",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
             data: {
                 fdc_id: foodItem.fdc_id,
             },
@@ -45,9 +37,6 @@ export default function AddFoodDialog({
             const response = await axios({
                 method: "POST",
                 url: apiBaseURL + "/api/search",
-                headers: {
-                    Authorization: "Bearer " + token,
-                },
                 data: {
                     query: query,
                 },
