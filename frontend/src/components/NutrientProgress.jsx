@@ -22,15 +22,15 @@ export default function NutrientProgress({
 
     return (
         <div className="flex flex-col p-2">
-            <div className="flex items-center pl-1 leading-6 justify-between">
+            <div className="flex flex-col pl-1 leading-6">
                 <div className="flex">
                     <p className="font-semibold">{name}&nbsp;</p>
                     <p>{`- (${value && value.toFixed(2)} ${unit})`}</p>
                 </div>
                 {showRanges && (
-                    <p>
-                        {` ${min ? ` {min: ${min}}` : ""} ${
-                            max ? ` {max: ${max}}` : ""
+                    <p className="text-gray-600">
+                        {`Ranges: ${min ? ` (min: ${min})` : ""} ${
+                            max ? `(max: ${max})` : ""
                         }`}
                     </p>
                 )}

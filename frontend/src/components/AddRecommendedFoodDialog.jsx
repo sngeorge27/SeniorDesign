@@ -49,7 +49,9 @@ export default function AddRecommendedFoodDialog({
                     <div className="fixed bg-gray-100 top-[50%] left-[50%] rounded-xl w-[400px] h-auto -translate-x-1/2 -translate-y-1/2 flex flex-col p-4 z-20">
                         {/* Header */}
                         <div className="flex w-full justify-between items-center mb-2">
-                            <p className="text-xl font-semibold">Add Food</p>
+                            <p className="text-xl font-semibold">
+                                Add to Food Log
+                            </p>
                             <button
                                 className="m-1 hover:text-red-600 rounded-full text-center"
                                 onClick={() => setIsOpen(false)}
