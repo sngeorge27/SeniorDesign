@@ -1,28 +1,33 @@
 import HeadMetadata from "../components/HeadMetadata";
-import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import Header from "../components/Header";
 import CheckBox from "../components/CheckBox";
+import { useForm } from "react-hook-form";
 
 export default function Profile() {
     const { user, setUser } = useAuth();
-    const [profileForm, setProfileForm] = useState({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        age: user.age,
-        sex: user.sex,
-        isPregnant: user.isPregnant,
-        isLactating: user.isLactating,
-        macroRatio: user.macroRatio,
-        height: user.height,
-        weight: user.weight,
+    const {
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        formState: { errors, isDirty },
+    } = useForm({
+        defaultValues: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            age: user.age,
+            sex: user.sex,
+            isPregnant: user.isPregnant,
+            isLactating: user.isLactating,
+            macroRatio: user.macroRatio,
+            height: user.height,
+            weight: user.weight,
+        },
     });
-    const [errorMessage, setErrorMessage] = useState(null);
 
-    function saveProfileChanges(event) {
-        // Add validation to ensure all fields have values
-
-        setUser({
+    function saveProfileChanges(profileForm) {
+        const updatedUser = {
             ...user,
             firstName: profileForm.firstName,
             lastName: profileForm.lastName,
@@ -33,27 +38,10 @@ export default function Profile() {
             macroRatio: profileForm.macroRatio,
             height: parseFloat(profileForm.height),
             weight: parseFloat(profileForm.weight),
-        });
+        };
 
-        event.preventDefault();
-    }
-
-    function handleChange(event) {
-        const { value, name } = event.target;
-
-        if ((name === "sex" && value == "M") || value == "") {
-            setProfileForm((prevInfo) => ({
-                ...prevInfo,
-                [name]: value,
-                isLactating: false,
-                isPregnant: false,
-            }));
-        } else {
-            setProfileForm((prevInfo) => ({
-                ...prevInfo,
-                [name]: value,
-            }));
-        }
+        setUser(updatedUser);
+        reset(updatedUser);
     }
 
     return (
@@ -61,58 +49,57 @@ export default function Profile() {
             <HeadMetadata title="Profile" />
             <Header title="Profile" showProfile={false}></Header>
             <div className="min-h-[200px] min-w-[400px] w-[80%] flex flex-col p-4 items-center mx-auto">
-                <form className="p-2 flex flex-col">
+                <form
+                    className="p-2 flex flex-col"
+                    onSubmit={handleSubmit(saveProfileChanges)}
+                >
                     <div className="flex">
                         <div className="m-2 flex flex-col w-full">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="firstName"
-                            >
-                                First Name
-                            </label>
+                            <Label
+                                label="First Name"
+                                error={errors.firstName}
+                            />
                             <input
-                                className="p-2 bg-gray-100 rounded-md shadow"
-                                onChange={handleChange}
-                                type="text"
-                                text={profileForm.firstName}
-                                name="firstName"
-                                value={profileForm.firstName}
-                                required
+                                className={`p-2 bg-gray-100 rounded-md shadow ${
+                                    errors.firstName
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
+                                {...register("firstName", {
+                                    required: true,
+                                })}
                             />
                         </div>
                         <div className="m-2 flex flex-col w-full">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="lastName"
-                            >
-                                Last Name
-                            </label>
+                            <Label label="Last Name" error={errors.lastName} />
+
                             <input
-                                className="p-2 bg-gray-100 rounded-md shadow"
-                                onChange={handleChange}
-                                type="text"
-                                text={profileForm.lastName}
-                                name="lastName"
-                                value={profileForm.lastName}
-                                required
+                                className={`p-2 bg-gray-100 rounded-md shadow ${
+                                    errors.lastName
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
+                                {...register("lastName", {
+                                    required: true,
+                                })}
                             />
                         </div>
                     </div>
                     <div className="flex">
                         <div className="m-2 flex flex-col w-full">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="macroRatio"
-                            >
-                                Macro Goal
-                            </label>
+                            <Label
+                                label="Macro Goal"
+                                error={errors.macroRatio}
+                            />
                             <select
-                                className="p-2 bg-gray-100 rounded-md shadow"
-                                onChange={handleChange}
-                                text={profileForm.macroRatio}
-                                name="macroRatio"
-                                value={profileForm.macroRatio}
-                                required
+                                className={`p-2 bg-gray-100 rounded-md shadow ${
+                                    errors.macroRatio
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
+                                {...register("macroRatio", {
+                                    required: true,
+                                })}
                             >
                                 <option value="maintain">Maintenance</option>
                                 <option value="loss">Weight loss</option>
@@ -121,139 +108,98 @@ export default function Profile() {
                             </select>
                         </div>
                         <div className="m-2 flex flex-col w-full">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="sex"
-                            >
-                                Sex
-                            </label>
+                            <Label label="Sex" error={errors.sex} />
                             <select
-                                className="p-2 bg-gray-100 rounded-md shadow"
-                                onChange={handleChange}
-                                text={profileForm.sex}
-                                name="sex"
-                                value={profileForm.sex}
-                                required
+                                className={`p-2 bg-gray-100 rounded-md shadow ${
+                                    errors.sex
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
+                                {...register("sex", {
+                                    required: true,
+                                })}
                             >
-                                <option value=""></option>
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
                             </select>
                         </div>
                     </div>
-                    {profileForm.sex == "F" && (
+                    {watch("sex") == "F" && (
                         <div className="flex w-full">
                             <div className="p-2 flex w-1/2 items-center">
-                                {/* <input
-                                        onChange={handleChange}
-                                        type="checkbox"
-                                        name="isPregnant"
-                                        value={profileForm.isPregnant}
-                                        required
-                                    /> */}
-                                <CheckBox
-                                    checked={profileForm.isPregnant}
-                                    setChecked={() =>
-                                        setProfileForm({
-                                            ...profileForm,
-                                            isPregnant: !profileForm.isPregnant,
-                                        })
-                                    }
+                                <input
+                                    className="mr-1"
+                                    type="checkbox"
+                                    {...register("isPregnant")}
                                 />
-                                <label
-                                    className="leading-8 ml-2 font-semibold"
-                                    htmlFor="isPregnant"
-                                >
-                                    Pregnant?
-                                </label>
+                                <Label label="Pregnant?" />
                             </div>
                             <div className="p-2 flex w-1/2 items-center">
-                                {/* <input
-                                        onChange={handleChange}
-                                        type="checkbox"
-                                        name="isLactating"
-                                        value={profileForm.isLactating}
-                                        required
-                                    /> */}
-                                <CheckBox
-                                    checked={profileForm.isLactating}
-                                    setChecked={() =>
-                                        setProfileForm({
-                                            ...profileForm,
-                                            isLactating:
-                                                !profileForm.isLactating,
-                                        })
-                                    }
+                                <input
+                                    className="mr-1"
+                                    type="checkbox"
+                                    {...register("isLactating")}
                                 />
-                                <label
-                                    className="leading-8 ml-2 font-semibold"
-                                    htmlFor="isLactating"
-                                >
-                                    Lactating?
-                                </label>
+                                <Label label="Lactating?" />
                             </div>
                         </div>
                     )}
                     <div className="flex">
                         <div className="m-2 flex flex-col">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="age"
-                            >
-                                Age
-                            </label>
+                            <Label label="Age" error={errors.age} />
                             <input
-                                className="p-2 bg-gray-100 rounded-md shadow"
-                                onChange={handleChange}
+                                className={`p-2 bg-gray-100 rounded-md shadow ${
+                                    errors.age
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
                                 type="number"
-                                text={profileForm.age}
-                                name="age"
-                                value={profileForm.age}
-                                required
+                                {...register("age", {
+                                    required: true,
+                                })}
                             />
                         </div>
                         <div className="m-2 flex flex-col w-full">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="height"
-                            >
-                                Height (in)
-                            </label>
+                            <Label label="Height (in)" error={errors.height} />
+
                             <input
-                                className="p-2 bg-gray-100 rounded-md shadow"
-                                onChange={handleChange}
+                                className={`p-2 bg-gray-100 rounded-md shadow ${
+                                    errors.height
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
                                 type="number"
-                                text={profileForm.height}
-                                name="height"
-                                value={profileForm.height}
-                                required
+                                {...register("height", {
+                                    required: true,
+                                })}
                             />
                         </div>
                         <div className="m-2 flex flex-col w-full">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="weight"
-                            >
-                                Weight (lbs)
-                            </label>
+                            <Label label="Weight (lbs)" error={errors.weight} />
+
                             <input
-                                className="p-2 bg-gray-100 rounded-md shadow"
-                                onChange={handleChange}
+                                className={`p-2 bg-gray-100 rounded-md shadow ${
+                                    errors.weight
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
                                 type="number"
-                                text={profileForm.weight}
-                                name="weight"
-                                value={profileForm.weight}
-                                required
+                                {...register("weight", {
+                                    required: true,
+                                })}
                             />
                         </div>
                     </div>
-                    {errorMessage && (
-                        <p className="p-2 text-red-700">{errorMessage}</p>
-                    )}
                     <div className="flex p-2 justify-end items-center">
+                        {Object.entries(errors).filter((error) => {
+                            return error[1].type == "required";
+                        }).length > 0 && (
+                            <p className="p-2 text-red-600">*Required Fields</p>
+                        )}
                         <button
-                            className="bg-cyan-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-cyan-600"
-                            onClick={saveProfileChanges}
+                            className="bg-cyan-500 font-semibold rounded-md p-2 m-2 text-white hover:bg-cyan-600 disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                            type="submit"
+                            disabled={!isDirty}
                         >
                             Save Changes
                         </button>
@@ -263,3 +209,14 @@ export default function Profile() {
         </div>
     );
 }
+
+const Label = ({ label, error }) => {
+    return (
+        <label
+            className={`leading-8 font-semibold ${error ? "text-red-600" : ""}`}
+        >
+            {error ? "*" : ""}
+            {label}
+        </label>
+    );
+};

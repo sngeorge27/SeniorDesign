@@ -8,7 +8,6 @@ const SignUp = () => {
         register,
         handleSubmit,
         watch,
-        setValue,
         setError,
         formState: { errors },
     } = useForm({
@@ -203,7 +202,7 @@ const SignUp = () => {
                             <div className="m-2 flex flex-col w-full">
                                 <Label
                                     label="Height (in)"
-                                    error={errors.weight}
+                                    error={errors.height}
                                 />
 
                                 <input
