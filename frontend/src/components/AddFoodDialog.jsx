@@ -2,12 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiBaseURL } from "../constants";
 
-export default function AddFoodDialog({
-    isOpen,
-    setIsOpen,
-    token,
-    addCallback,
-}) {
+export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
     const [selectedFood, setSelectedFood] = useState(null);
     const [query, setQuery] = useState("");
     const [foodAmount, setFoodAmount] = useState("");
@@ -25,9 +20,6 @@ export default function AddFoodDialog({
         const response = await axios({
             method: "POST",
             url: apiBaseURL + "/api/get_food",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
             data: {
                 fdc_id: foodItem.fdc_id,
             },
@@ -45,9 +37,6 @@ export default function AddFoodDialog({
             const response = await axios({
                 method: "POST",
                 url: apiBaseURL + "/api/search",
-                headers: {
-                    Authorization: "Bearer " + token,
-                },
                 data: {
                     query: query,
                 },
@@ -64,11 +53,11 @@ export default function AddFoodDialog({
                 <>
                     {/* Background Overlay */}
                     <div
-                        className="inset-0 h-screen w-screen fixed bg-black/60 backdrop-blur-sm z-5"
+                        className="inset-0 h-screen w-screen fixed bg-black/60 backdrop-blur-sm z-10"
                         onClick={() => setIsOpen(false)}
                     ></div>
                     {/* Dialog */}
-                    <div className="fixed bg-gray-100 top-[50%] left-[50%] rounded-xl w-[400px] h-auto -translate-x-1/2 -translate-y-1/2 flex flex-col p-4 z-10">
+                    <div className="fixed bg-gray-100 top-[50%] left-[50%] rounded-xl w-[400px] h-auto -translate-x-1/2 -translate-y-1/2 flex flex-col p-4 z-20">
                         {/* Header */}
                         <div className="flex w-full justify-between items-center mb-2">
                             <p className="text-xl font-semibold">Add Food</p>

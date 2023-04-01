@@ -10,7 +10,7 @@ export default function Header({
         <header className="p-8 flex justify-between w-full items-center">
             <div className="flex flex-col">
                 <h1 className="text-3xl font-bold leading-10">{title}</h1>
-                {subtitle && <h3>{subtitle}</h3>}
+                {subtitle && <h3 className="text-lg">{subtitle}</h3>}
             </div>
             <div>
                 {children}

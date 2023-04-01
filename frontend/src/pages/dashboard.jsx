@@ -2,46 +2,117 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import Header from "../components/Header";
-import DateNav from "../components/DateNav";
-import FoodLog from "../components/FoodLog";
-import { testFoodLogs, testNutrients, testRDI, testFood } from "../testdata";
-import NutrientProgress from "../components/NutrientProgress";
 import { apiBaseURL } from "../constants";
+import AddRecommendedFoodDialog from "../components/AddRecommendedFoodDialog";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
-    const { token } = useAuth();
-    const [user, setUser] = useState();
+    const navigate = useNavigate();
+    const { user, setUser } = useAuth();
+    const [recommendations, setRecommendations] = useState([]);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [selectedRec, setSelectedRec] = useState(null);
+
+    function logRecommendation(food, amount) {
+        const newFood = {
+            id: food.fdc_id,
+            date: new Date(),
+            food: food,
+            amount: amount,
+        };
+        setUser({ ...user, loggedFood: [...user.loggedFood, newFood] });
+        navigate("/track");
+    }
 
     useEffect(() => {
         axios({
-            method: "GET",
-            url: apiBaseURL + "/api/user",
-            headers: {
-                Authorization: "Bearer " + token,
+            method: "POST",
+            url: apiBaseURL + "/api/recommend",
+            data: {
+                age: user.age,
+                sex: user.sex,
+                isPregnant: user.isPregnant,
+                isLactating: user.isLactating,
+                macroRatio: user.macroRatio,
+                heightInches: user.height,
+                weightPounds: user.weight,
+                foodLog: user.loggedFood
+                    .filter((food) => {
+                        const foodDate = new Date(food.date);
+                        const currentDate = new Date();
+                        return (
+                            foodDate.getFullYear() ===
+                                currentDate.getFullYear() &&
+                            foodDate.getMonth() === currentDate.getMonth() &&
+                            foodDate.getDate() === currentDate.getDate()
+                        );
+                    })
+                    .map((food) => {
+                        return {
+                            fdc_id: food.id,
+                            amount: parseFloat(food.amount),
+                        };
+                    }),
             },
         })
             .then((response) => {
-                const res = response.data;
-                setUser(res);
-                console.log(user);
+                const recs = response.data;
+                setRecommendations(recs);
             })
             .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
+                if (error) {
+                    console.log(error);
                 }
             });
-    }, []);
+    }, [user]);
 
     return (
         <div className="w-full flex flex-col h-full">
             <Header
                 title={`Welcome ${user ? user.firstName : ""}!`}
-                subtitle="Here is your overview for today"
+                subtitle="Here are your recommendations for today"
             ></Header>
-            <div className="pb-8 flex flex-col items-center h-full">
-                <p>recommendations can go here</p>
+            <div className="">
+                <div className="p-2 mx-auto w-full lg:max-w-lg flex flex-col items-center rounded-lg bg-gray-100 shadow-md h-full min-h-0">
+                    {selectedRec && (
+                        <AddRecommendedFoodDialog
+                            isOpen={isDialogOpen}
+                            setIsOpen={setIsDialogOpen}
+                            recommendedFood={selectedRec}
+                            addCallback={logRecommendation}
+                        />
+                    )}
+                    <div className="w-full">
+                        {recommendations.map((rec, i) => {
+                            return (
+                                <div
+                                    key={i}
+                                    className="flex p-2 justify-between items-center border-b border-gray-200 rounded-lg last:border-b-0"
+                                >
+                                    <p>
+                                        {`${
+                                            rec.shortened_name
+                                                ? rec.shortened_name
+                                                : rec.name
+                                        } ${rec.emojis ? rec.emojis : ""}`}
+                                    </p>
+
+                                    <div className="flex items-center hover:text-cyan-600 rounded-full">
+                                        <button
+                                            className="m-1 p-1 text-center"
+                                            onClick={() => {
+                                                setSelectedRec(rec);
+                                                setIsDialogOpen(true);
+                                            }}
+                                        >
+                                            <i className="fa fa-plus text-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         </div>
     );

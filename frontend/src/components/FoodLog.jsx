@@ -8,24 +8,24 @@ export default function FoodLog({
     deleteFood,
     selectedFood,
     setSelectedFood,
-    token,
 }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const filteredFoods = loggedFoods.filter(
-        (loggedFood) =>
-            loggedFood.date.getFullYear() === currentDate.getFullYear() &&
-            loggedFood.date.getMonth() === currentDate.getMonth() &&
-            loggedFood.date.getDate() === currentDate.getDate()
-    );
+    const filteredFoods = loggedFoods.filter((loggedFood) => {
+        const foodDate = new Date(loggedFood.date);
+        return (
+            foodDate.getFullYear() === currentDate.getFullYear() &&
+            foodDate.getMonth() === currentDate.getMonth() &&
+            foodDate.getDate() === currentDate.getDate()
+        );
+    });
 
     return (
-        <div className="p-2 mx-auto w-full md:max-w-lg flex flex-col items-center rounded-lg bg-gray-100 shadow-md h-full min-h-0">
+        <div className="p-2 mx-auto w-full lg:max-w-lg flex flex-col items-center rounded-lg bg-gray-100 shadow-md h-full min-h-0">
             <AddFoodDialog
                 isOpen={isDialogOpen}
                 setIsOpen={setIsDialogOpen}
                 addCallback={logFood}
-                token={token}
             />
             <div className="flex justify-between w-full p-2 items-center border-b border-gray-200">
                 <h1 className="font-semibold text-xl">Food Log</h1>

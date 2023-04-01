@@ -29,7 +29,7 @@ export default function NutrientProgress({
                 </div>
                 {showRanges && (
                     <p>
-                        {` Range: ${min ? ` {min: ${min}}` : ""} ${
+                        {` ${min ? ` {min: ${min}}` : ""} ${
                             max ? ` {max: ${max}}` : ""
                         }`}
                     </p>

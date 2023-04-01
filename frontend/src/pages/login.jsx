@@ -1,46 +1,30 @@
 import { useAuth } from "../hooks/useAuth";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
-import { apiBaseURL } from "../constants";
 
 const Login = () => {
-    const { token, setToken } = useAuth();
+    const { user, setUser } = useAuth();
     const location = useLocation();
-
-    if (token) {
-        return <Navigate to="/" return replace state={{ from: location }} />;
-    }
-
     const [loginForm, setloginForm] = useState({
-        email: "",
+        username: "",
         password: "",
     });
-
     const [loginError, setLoginError] = useState(false);
 
     function login(event) {
-        axios({
-            method: "POST",
-            url: apiBaseURL + "/api/token",
-            data: {
-                email: loginForm.email,
-                password: loginForm.password,
-            },
-        })
-            .then((response) => {
-                setLoginError(false);
-                setToken(response.data.access_token);
-            })
-            .catch((error) => {
-                if (error) {
-                    setLoginError(true);
-                    console.log(error);
-                }
-            });
+        const loginUser = JSON.parse(
+            localStorage.getItem(`${loginForm.username}`)
+        );
+        console.log(loginUser);
+        if (loginUser && loginUser.password == loginForm.password) {
+            setLoginError(false);
+            setUser(loginUser);
+        } else {
+            setLoginError(true);
+        }
 
         setloginForm({
-            email: "",
+            username: "",
             password: "",
         });
 
@@ -55,6 +39,10 @@ const Login = () => {
         }));
     }
 
+    if (user) {
+        return <Navigate to="/" return replace state={{ from: location }} />;
+    }
+
     return (
         <div className="h-[100dvh] w-full from-cyan-800 to-cyan-700 bg-gradient-to-b flex flex-col items-center">
             <div className="mt-[10dvh] w-full mx-auto flex flex-col items-center">
@@ -67,21 +55,27 @@ const Login = () => {
                     </h2>
                     <form className="p-2 flex flex-col">
                         <div className="m-2 flex flex-col">
-                            <label className="leading-8" htmlFor="email">
-                                Email
+                            <label
+                                className="leading-8 font-semibold"
+                                htmlFor="username"
+                            >
+                                Username
                             </label>
                             <input
                                 className="p-2 bg-gray-200 rounded-md shadow"
                                 onChange={handleChange}
-                                type="email"
-                                text={loginForm.email}
-                                name="email"
-                                value={loginForm.email}
+                                type="text"
+                                text={loginForm.username}
+                                name="username"
+                                value={loginForm.username}
                                 required
                             />
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label className="leading-8" htmlFor="password">
+                            <label
+                                className="leading-8 font-semibold"
+                                htmlFor="password"
+                            >
                                 Password
                             </label>
                             <input
@@ -96,7 +90,7 @@ const Login = () => {
                         </div>
                         {loginError && (
                             <p className="p-2 text-red-700">
-                                Incorrect email or password. Try Again
+                                Incorrect username or password. Try Again
                             </p>
                         )}
                         <div className="flex p-2 justify-between items-center">

@@ -1,29 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import axios from "axios";
-import { useState } from "react";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 
 export default function Nav() {
     const { onLogout } = useAuth();
-
-    function logout() {
-        axios({
-            method: "POST",
-            url: "/api/logout",
-        })
-            .then(() => {
-                onLogout();
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }
-            });
-    }
 
     return (
         <nav className="flex flex-col bg-cyan-800 w-[70px] p-4 justify-between">
@@ -38,7 +19,7 @@ export default function Nav() {
                     icon="fa-sign-out"
                     label="Logout"
                     isAction={true}
-                    actionCallback={logout}
+                    actionCallback={onLogout}
                 />
             </div>
         </nav>
