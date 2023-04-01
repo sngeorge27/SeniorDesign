@@ -1,35 +1,48 @@
 import { useAuth } from "../hooks/useAuth";
 import { Link, Navigate } from "react-router-dom";
-import { useState } from "react";
-import CheckBox from "../components/CheckBox";
+import { useForm } from "react-hook-form";
 
 const SignUp = () => {
     const { user, setUser } = useAuth();
-    const [signupForm, setSignupForm] = useState({
-        firstName: "",
-        lastName: "",
-        age: "",
-        sex: "",
-        isPregnant: false,
-        isLactating: false,
-        macroRatio: "maintain",
-        height: "",
-        weight: "",
-        username: "",
-        password: "",
-        confirmPassword: "",
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        setError,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            age: "",
+            sex: "",
+            isPregnant: false,
+            isLactating: false,
+            macroRatio: "maintain",
+            height: "",
+            weight: "",
+            username: "",
+            password: "",
+            confirmPassword: "",
+        },
     });
-    const [errorMessage, setErrorMessage] = useState(null);
 
-    function signup(event) {
+    function signup(signupForm) {
         const existingUser = JSON.parse(
             localStorage.getItem(signupForm.username)
         );
 
         if (signupForm.password !== signupForm.confirmPassword) {
-            setErrorMessage("Passwords must match");
+            setError("confirmPassword", {
+                type: "custom",
+                message: "Passwords does not match",
+            });
         } else if (existingUser) {
-            setErrorMessage("A user with that username already exists");
+            setError("username", {
+                type: "custom",
+                message: "A user with that username already exists",
+            });
         } else {
             localStorage.setItem(
                 "currentUser",
@@ -55,41 +68,6 @@ const SignUp = () => {
                 JSON.stringify(newUser)
             );
             setUser(newUser);
-
-            setSignupForm({
-                firstName: "",
-                lastName: "",
-                age: "",
-                sex: "",
-                isPregnant: false,
-                isLactating: false,
-                macroRatio: "maintain",
-                height: "",
-                weight: "",
-                username: "",
-                password: "",
-                confirmPassword: "",
-            });
-        }
-
-        event.preventDefault();
-    }
-
-    function handleChange(event) {
-        const { value, name } = event.target;
-
-        if ((name === "sex" && value == "M") || value == "") {
-            setSignupForm((prevInfo) => ({
-                ...prevInfo,
-                [name]: value,
-                isLactating: false,
-                isPregnant: false,
-            }));
-        } else {
-            setSignupForm((prevInfo) => ({
-                ...prevInfo,
-                [name]: value,
-            }));
         }
     }
 
@@ -107,58 +85,60 @@ const SignUp = () => {
                     <h2 className="text-black font-semibold text-2xl self-center">
                         Sign Up
                     </h2>
-                    <form className="p-2 flex flex-col">
+                    <form
+                        className="p-2 flex flex-col"
+                        onSubmit={handleSubmit(signup)}
+                    >
                         <div className="flex">
                             <div className="m-2 flex flex-col w-full">
-                                <label
-                                    className="leading-8 font-semibold"
-                                    htmlFor="firstName"
-                                >
-                                    First Name
-                                </label>
+                                <Label
+                                    label="First Name"
+                                    error={errors.firstName}
+                                />
                                 <input
-                                    className="p-2 bg-gray-200 rounded-md shadow"
-                                    onChange={handleChange}
-                                    type="text"
-                                    text={signupForm.firstName}
-                                    name="firstName"
-                                    value={signupForm.firstName}
-                                    required
+                                    className={`p-2 bg-gray-200 rounded-md shadow ${
+                                        errors.firstName
+                                            ? "border-2 border-red-400 bg-red-100"
+                                            : ""
+                                    }`}
+                                    {...register("firstName", {
+                                        required: true,
+                                    })}
                                 />
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label
-                                    className="leading-8 font-semibold"
-                                    htmlFor="lastName"
-                                >
-                                    Last Name
-                                </label>
+                                <Label
+                                    label="Last Name"
+                                    error={errors.lastName}
+                                />
+
                                 <input
-                                    className="p-2 bg-gray-200 rounded-md shadow"
-                                    onChange={handleChange}
-                                    type="text"
-                                    text={signupForm.lastName}
-                                    name="lastName"
-                                    value={signupForm.lastName}
-                                    required
+                                    className={`p-2 bg-gray-200 rounded-md shadow ${
+                                        errors.lastName
+                                            ? "border-2 border-red-400 bg-red-100"
+                                            : ""
+                                    }`}
+                                    {...register("lastName", {
+                                        required: true,
+                                    })}
                                 />
                             </div>
                         </div>
                         <div className="flex">
                             <div className="m-2 flex flex-col w-full">
-                                <label
-                                    className="leading-8 font-semibold"
-                                    htmlFor="macroRatio"
-                                >
-                                    Macro Goal
-                                </label>
+                                <Label
+                                    label="Macro Goal"
+                                    error={errors.macroRatio}
+                                />
                                 <select
-                                    className="p-2 bg-gray-200 rounded-md shadow"
-                                    onChange={handleChange}
-                                    text={signupForm.macroRatio}
-                                    name="macroRatio"
-                                    value={signupForm.macroRatio}
-                                    required
+                                    className={`p-2 bg-gray-200 rounded-md shadow ${
+                                        errors.macroRatio
+                                            ? "border-2 border-red-400 bg-red-100"
+                                            : ""
+                                    }`}
+                                    {...register("macroRatio", {
+                                        required: true,
+                                    })}
                                 >
                                     <option value="maintain">
                                         Maintenance
@@ -169,187 +149,157 @@ const SignUp = () => {
                                 </select>
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label
-                                    className="leading-8 font-semibold"
-                                    htmlFor="sex"
-                                >
-                                    Sex
-                                </label>
+                                <Label label="Sex" error={errors.sex} />
                                 <select
-                                    className="p-2 bg-gray-200 rounded-md shadow"
-                                    onChange={handleChange}
-                                    text={signupForm.sex}
-                                    name="sex"
-                                    value={signupForm.sex}
-                                    required
+                                    className={`p-2 bg-gray-200 rounded-md shadow ${
+                                        errors.sex
+                                            ? "border-2 border-red-400 bg-red-100"
+                                            : ""
+                                    }`}
+                                    {...register("sex", {
+                                        required: true,
+                                    })}
                                 >
-                                    <option value=""></option>
                                     <option value="M">Male</option>
                                     <option value="F">Female</option>
                                 </select>
                             </div>
                         </div>
-                        {signupForm.sex == "F" && (
+                        {watch("sex") == "F" && (
                             <div className="flex w-full">
                                 <div className="p-2 flex w-1/2 items-center">
-                                    {/* <input
-                                        onChange={handleChange}
+                                    <input
+                                        className="mr-1"
                                         type="checkbox"
-                                        name="isPregnant"
-                                        value={signupForm.isPregnant}
-                                        required
-                                    /> */}
-                                    <CheckBox
-                                        checked={signupForm.isPregnant}
-                                        setChecked={() =>
-                                            setSignupForm({
-                                                ...signupForm,
-                                                isPregnant:
-                                                    !signupForm.isPregnant,
-                                            })
-                                        }
+                                        {...register("isPregnant")}
                                     />
-                                    <label
-                                        className="leading-8 ml-2"
-                                        htmlFor="isPregnant"
-                                    >
-                                        Pregnant?
-                                    </label>
+                                    <Label label="Pregnant?" />
                                 </div>
                                 <div className="p-2 flex w-1/2 items-center">
-                                    {/* <input
-                                        onChange={handleChange}
+                                    <input
+                                        className="mr-1"
                                         type="checkbox"
-                                        name="isLactating"
-                                        value={signupForm.isLactating}
-                                        required
-                                    /> */}
-                                    <CheckBox
-                                        checked={signupForm.isLactating}
-                                        setChecked={() =>
-                                            setSignupForm({
-                                                ...signupForm,
-                                                isLactating:
-                                                    !signupForm.isLactating,
-                                            })
-                                        }
+                                        {...register("isLactating")}
                                     />
-                                    <label
-                                        className="leading-8 ml-2"
-                                        htmlFor="isLactating"
-                                    >
-                                        Lactating?
-                                    </label>
+                                    <Label label="Lactating?" />
                                 </div>
                             </div>
                         )}
                         <div className="flex">
                             <div className="m-2 flex flex-col">
-                                <label
-                                    className="leading-8 font-semibold"
-                                    htmlFor="age"
-                                >
-                                    Age
-                                </label>
+                                <Label label="Age" error={errors.age} />
                                 <input
-                                    className="p-2 bg-gray-200 rounded-md shadow"
-                                    onChange={handleChange}
+                                    className={`p-2 bg-gray-200 rounded-md shadow ${
+                                        errors.age
+                                            ? "border-2 border-red-400 bg-red-100"
+                                            : ""
+                                    }`}
                                     type="number"
-                                    text={signupForm.age}
-                                    name="age"
-                                    value={signupForm.age}
-                                    required
+                                    {...register("age", {
+                                        required: true,
+                                    })}
                                 />
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label
-                                    className="leading-8 font-semibold"
-                                    htmlFor="height"
-                                >
-                                    Height (in)
-                                </label>
+                                <Label
+                                    label="Height (in)"
+                                    error={errors.weight}
+                                />
+
                                 <input
-                                    className="p-2 bg-gray-200 rounded-md shadow"
-                                    onChange={handleChange}
+                                    className={`p-2 bg-gray-200 rounded-md shadow ${
+                                        errors.height
+                                            ? "border-2 border-red-400 bg-red-100"
+                                            : ""
+                                    }`}
                                     type="number"
-                                    text={signupForm.height}
-                                    name="height"
-                                    value={signupForm.height}
-                                    required
+                                    {...register("height", {
+                                        required: true,
+                                    })}
                                 />
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label
-                                    className="leading-8 font-semibold"
-                                    htmlFor="weight"
-                                >
-                                    Weight (lbs)
-                                </label>
+                                <Label
+                                    label="Weight (lbs)"
+                                    error={errors.weight}
+                                />
+
                                 <input
-                                    className="p-2 bg-gray-200 rounded-md shadow"
-                                    onChange={handleChange}
+                                    className={`p-2 bg-gray-200 rounded-md shadow ${
+                                        errors.weight
+                                            ? "border-2 border-red-400 bg-red-100"
+                                            : ""
+                                    }`}
                                     type="number"
-                                    text={signupForm.weight}
-                                    name="weight"
-                                    value={signupForm.weight}
-                                    required
+                                    {...register("weight", {
+                                        required: true,
+                                    })}
                                 />
                             </div>
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="username"
-                            >
-                                Username
-                            </label>
+                            <div className="flex items-center justify-between">
+                                <Label
+                                    label="Username"
+                                    error={errors.username}
+                                />
+                                {errors.username &&
+                                    errors.username.type == "custom" && (
+                                        <p className="text-red-600">
+                                            {errors.username.message}
+                                        </p>
+                                    )}
+                            </div>
                             <input
-                                className="p-2 bg-gray-200 rounded-md shadow"
-                                onChange={handleChange}
-                                type="text"
-                                text={signupForm.username}
-                                name="username"
-                                value={signupForm.username}
-                                required
+                                className={`p-2 bg-gray-200 rounded-md shadow ${
+                                    errors.username
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
+                                {...register("username", {
+                                    required: true,
+                                })}
                             />
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="password"
-                            >
-                                Password
-                            </label>
+                            <Label label="Password" error={errors.password} />
                             <input
-                                className="p-2 bg-gray-200 rounded-md shadow"
-                                onChange={handleChange}
+                                className={`p-2 bg-gray-200 rounded-md shadow ${
+                                    errors.password
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
                                 type="password"
-                                text={signupForm.password}
-                                name="password"
-                                value={signupForm.password}
-                                required
+                                {...register("password", {
+                                    required: true,
+                                })}
                             />
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="confirmPassword"
-                            >
-                                Confirm Password
-                            </label>
+                            <div className="flex items-center justify-between">
+                                <Label
+                                    label="Confirm Password"
+                                    error={errors.confirmPassword}
+                                />
+                                {errors.confirmPassword &&
+                                    errors.confirmPassword.type == "custom" && (
+                                        <p className="text-red-600">
+                                            {errors.confirmPassword.message}
+                                        </p>
+                                    )}
+                            </div>
                             <input
-                                className="p-2 bg-gray-200 rounded-md shadow"
-                                onChange={handleChange}
+                                className={`p-2 bg-gray-200 rounded-md shadow ${
+                                    errors.confirmPassword
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
                                 type="password"
-                                text={signupForm.confirmPassword}
-                                name="confirmPassword"
-                                value={signupForm.confirmPassword}
-                                required
+                                {...register("confirmPassword", {
+                                    required: true,
+                                })}
                             />
                         </div>
-                        {errorMessage && (
-                            <p className="p-2 text-red-700">{errorMessage}</p>
-                        )}
                         <div className="flex p-2 justify-between items-center">
                             <div className="flex">
                                 <p>Already have an account?&nbsp;</p>
@@ -360,17 +310,37 @@ const SignUp = () => {
                                     Login
                                 </Link>
                             </div>
-                            <button
-                                className="bg-cyan-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-cyan-600"
-                                onClick={signup}
-                            >
-                                Submit
-                            </button>
+                            <div className="flex items-center">
+                                {Object.entries(errors).filter((error) => {
+                                    return error[1].type == "required";
+                                }).length > 0 && (
+                                    <p className="p-2 text-red-600">
+                                        *Required Fields
+                                    </p>
+                                )}
+                                <button
+                                    className="bg-cyan-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-cyan-600"
+                                    type="submit"
+                                >
+                                    Submit
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+    );
+};
+
+const Label = ({ label, error }) => {
+    return (
+        <label
+            className={`leading-8 font-semibold ${error ? "text-red-600" : ""}`}
+        >
+            {error ? "*" : ""}
+            {label}
+        </label>
     );
 };
 

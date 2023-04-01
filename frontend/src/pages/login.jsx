@@ -1,44 +1,41 @@
 import { useAuth } from "../hooks/useAuth";
 import { Link, Navigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
     const { user, setUser } = useAuth();
     const location = useLocation();
-    const [loginForm, setloginForm] = useState({
-        username: "",
-        password: "",
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            username: "",
+            password: "",
+        },
     });
-    const [loginError, setLoginError] = useState(false);
 
-    function login(event) {
+    function login(loginForm) {
         const loginUser = JSON.parse(
             localStorage.getItem(`${loginForm.username}`)
         );
-        console.log(loginUser);
-        if (loginUser && loginUser.password == loginForm.password) {
-            setLoginError(false);
+
+        if (!loginUser) {
+            setError("username", {
+                type: "custom",
+                message: "User doesn't exist",
+            });
+        } else if (loginUser && loginUser.password != loginForm.password) {
+            setError("password", {
+                type: "custom",
+                message: "Incorrect password",
+            });
+        } else if (loginUser && loginUser.password == loginForm.password) {
             setUser(loginUser);
-        } else {
-            setLoginError(true);
         }
-
-        setloginForm({
-            username: "",
-            password: "",
-        });
-
-        event.preventDefault();
     }
-
-    function handleChange(event) {
-        const { value, name } = event.target;
-        setloginForm((prevNote) => ({
-            ...prevNote,
-            [name]: value,
-        }));
-    }
-
     if (user) {
         return <Navigate to="/" return replace state={{ from: location }} />;
     }
@@ -53,45 +50,63 @@ const Login = () => {
                     <h2 className="text-black font-semibold text-2xl self-center">
                         Login
                     </h2>
-                    <form className="p-2 flex flex-col">
+                    <form
+                        className="p-2 flex flex-col"
+                        onSubmit={handleSubmit(login)}
+                    >
                         <div className="m-2 flex flex-col">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="username"
-                            >
-                                Username
-                            </label>
+                            <div className="flex items-center justify-between">
+                                <Label
+                                    label="Username"
+                                    error={errors.username}
+                                />
+                                {errors.username &&
+                                    errors.username.type == "custom" && (
+                                        <p className="text-red-600">
+                                            {errors.username.message}
+                                        </p>
+                                    )}
+                            </div>
                             <input
-                                className="p-2 bg-gray-200 rounded-md shadow"
-                                onChange={handleChange}
-                                type="text"
-                                text={loginForm.username}
-                                name="username"
-                                value={loginForm.username}
-                                required
+                                className={`p-2 bg-gray-200 rounded-md shadow ${
+                                    errors.username
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
+                                {...register("username", {
+                                    required: true,
+                                })}
                             />
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label
-                                className="leading-8 font-semibold"
-                                htmlFor="password"
-                            >
-                                Password
-                            </label>
+                            <div className="flex items-center justify-between">
+                                <Label
+                                    label="Password"
+                                    error={errors.password}
+                                />
+                                {errors.password &&
+                                    errors.password.type == "custom" && (
+                                        <p className="text-red-600">
+                                            {errors.password.message}
+                                        </p>
+                                    )}
+                            </div>
                             <input
-                                className="p-2 bg-gray-200 rounded-md shadow"
-                                onChange={handleChange}
+                                className={`p-2 bg-gray-200 rounded-md shadow ${
+                                    errors.password
+                                        ? "border-2 border-red-400 bg-red-100"
+                                        : ""
+                                }`}
                                 type="password"
-                                text={loginForm.password}
-                                name="password"
-                                value={loginForm.password}
-                                required
+                                {...register("password", {
+                                    required: true,
+                                })}
                             />
                         </div>
-                        {loginError && (
-                            <p className="p-2 text-red-700">
-                                Incorrect username or password. Try Again
-                            </p>
+                        {Object.entries(errors).filter((error) => {
+                            return error[1].type == "required";
+                        }).length > 0 && (
+                            <p className="p-2 text-red-600">*Required Fields</p>
                         )}
                         <div className="flex p-2 justify-between items-center">
                             <div className="flex">
@@ -103,9 +118,10 @@ const Login = () => {
                                     Register
                                 </Link>
                             </div>
+
                             <button
                                 className="bg-cyan-500 font-semibold rounded-md self-end p-2 m-2 text-white hover:bg-cyan-600"
-                                onClick={login}
+                                type="submit"
                             >
                                 Submit
                             </button>
@@ -114,6 +130,17 @@ const Login = () => {
                 </div>
             </div>
         </div>
+    );
+};
+
+const Label = ({ label, error }) => {
+    return (
+        <label
+            className={`leading-8 font-semibold ${error ? "text-red-600" : ""}`}
+        >
+            {error ? "*" : ""}
+            {label}
+        </label>
     );
 };
 
