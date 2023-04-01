@@ -5,10 +5,10 @@ import { useAuth } from "../hooks/useAuth";
 import { Navigate, useLocation } from "react-router-dom";
 
 export const ProtectedLayout = () => {
-    const { token } = useAuth();
+    const { user } = useAuth();
     const location = useLocation();
 
-    if (!token) {
+    if (!user) {
         return (
             <Navigate to="/login" return replace state={{ from: location }} />
         );

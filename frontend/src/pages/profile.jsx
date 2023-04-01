@@ -1,17 +1,21 @@
 import HeadMetadata from "../components/HeadMetadata";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import Header from "../components/Header";
-import { apiBaseURL } from "../constants";
+import CheckBox from "../components/CheckBox";
 
 export default function Profile() {
-    const { token } = useAuth();
-    const [user, setUser] = useState();
+    const { user, setUser } = useAuth();
 
-    useEffect(() => {
-        getUser(setUser, token);
-    }, []);
+    // const [profileForm, setprofileForm] = useState({
+    //     firstName: "",
+    //     lastName: "",
+    //     macroRatio: "",
+    //     age: "",
+    //     sex: "",
+    //     isPregnant: false,
+    //     isLactating: false,
+    // });
 
     return (
         <div className="w-full h-full">
@@ -23,33 +27,11 @@ export default function Profile() {
                     <p>
                         Name: {user.firstName} {user.lastName}
                     </p>
-                    <p>Email: {user.email}</p>
+                    <p>Username: {user.username}</p>
                     <p>Sex: {user.sex}</p>
                     <p>Age: {user.age}</p>
                 </div>
             )}
         </div>
     );
-}
-
-function getUser(setUser, token) {
-    axios({
-        method: "GET",
-        url: apiBaseURL + "/api/user",
-        headers: {
-            Authorization: "Bearer " + token,
-        },
-    })
-        .then((response) => {
-            const res = response.data;
-            setUser(res);
-            console.log(user);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            }
-        });
 }

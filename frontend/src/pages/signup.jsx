@@ -1,82 +1,108 @@
 import { useAuth } from "../hooks/useAuth";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
-import { apiBaseURL } from "../constants";
+import CheckBox from "../components/CheckBox";
 
 const SignUp = () => {
-    const { token, setToken } = useAuth();
-    const location = useLocation();
-
-    if (token) {
-        return <Navigate to="/" return replace state={{ from: location }} />;
-    }
-
-    const [passwordMismatchError, setPasswordMismatchError] = useState(false);
-
+    const { user, setUser } = useAuth();
     const [signupForm, setSignupForm] = useState({
         firstName: "",
         lastName: "",
         age: "",
         sex: "",
-        email: "",
+        isPregnant: false,
+        isLactating: false,
+        macroRatio: "maintain",
+        height: "",
+        weight: "",
+        username: "",
         password: "",
         confirmPassword: "",
     });
+    const [errorMessage, setErrorMessage] = useState(null);
 
     function signup(event) {
-        if (signupForm.password !== signupForm.confirmPassword) {
-            setPasswordMismatchError(true);
-            return;
-        }
+        const existingUser = JSON.parse(
+            localStorage.getItem(signupForm.username)
+        );
+        console.log("existing user", existingUser);
 
-        axios({
-            method: "POST",
-            url: apiBaseURL + "/api/signup",
-            data: {
+        if (signupForm.password !== signupForm.confirmPassword) {
+            setErrorMessage("Passwords must match");
+        } else if (existingUser) {
+            setErrorMessage("A user with that username already exists");
+        } else {
+            localStorage.setItem(
+                "currentUser",
+                JSON.stringify(`${signupForm.username}`)
+            );
+
+            const newUser = {
                 firstName: signupForm.firstName,
                 lastName: signupForm.lastName,
-                age: signupForm.age,
+                age: parseInt(signupForm.age),
                 sex: signupForm.sex,
-                email: signupForm.email,
+                isPregnant: signupForm.isPregnant,
+                isLactating: signupForm.isLactating,
+                macroRatio: signupForm.macroRatio,
+                height: parseFloat(signupForm.height),
+                weight: parseFloat(signupForm.weight),
+                username: signupForm.username,
                 password: signupForm.password,
-            },
-        })
-            .then((response) => {
-                setToken(response.data.access_token);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }
+                loggedFood: [],
+            };
+            localStorage.setItem(
+                `${signupForm.username}`,
+                JSON.stringify(newUser)
+            );
+            setUser(newUser);
+
+            setSignupForm({
+                firstName: "",
+                lastName: "",
+                age: "",
+                sex: "",
+                isPregnant: false,
+                isLactating: false,
+                macroRatio: "maintain",
+                height: "",
+                weight: "",
+                username: "",
+                password: "",
+                confirmPassword: "",
             });
 
-        setSignupForm({
-            firstName: "",
-            lastName: "",
-            age: "",
-            sex: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-        });
+            console.log(localStorage.getItem(`${signupForm.username}`));
+        }
 
         event.preventDefault();
     }
 
     function handleChange(event) {
         const { value, name } = event.target;
-        setSignupForm((prevNote) => ({
-            ...prevNote,
-            [name]: value,
-        }));
+
+        if ((name === "sex" && value == "M") || value == "") {
+            setSignupForm((prevInfo) => ({
+                ...prevInfo,
+                [name]: value,
+                isLactating: false,
+                isPregnant: false,
+            }));
+        } else {
+            setSignupForm((prevInfo) => ({
+                ...prevInfo,
+                [name]: value,
+            }));
+        }
+    }
+
+    if (user) {
+        return <Navigate replace to="/" />;
     }
 
     return (
         <div className="h-[100dvh] w-full from-cyan-800 to-cyan-700 bg-gradient-to-b flex flex-col items-center">
-            <div className="mt-[10dvh] w-full mx-auto flex flex-col items-center">
+            <div className="mt-[5dvh] w-full mx-auto flex flex-col items-center">
                 <h1 className="text-center text-white font-bold text-4xl p-4 leading-loose">
                     Welcome to Sabrosa Health
                 </h1>
@@ -86,7 +112,7 @@ const SignUp = () => {
                     </h2>
                     <form className="p-2 flex flex-col">
                         <div className="flex">
-                            <div className="m-2 flex flex-col">
+                            <div className="m-2 flex flex-col w-full">
                                 <label
                                     className="leading-8"
                                     htmlFor="firstName"
@@ -103,7 +129,7 @@ const SignUp = () => {
                                     required
                                 />
                             </div>
-                            <div className="m-2 flex flex-col">
+                            <div className="m-2 flex flex-col w-full">
                                 <label className="leading-8" htmlFor="lastName">
                                     Last Name
                                 </label>
@@ -119,11 +145,104 @@ const SignUp = () => {
                             </div>
                         </div>
                         <div className="flex">
-                            <div className="m-2 flex flex-col">
+                            <div className="m-2 flex flex-col w-full">
                                 <label
                                     className="leading-8"
-                                    htmlFor="firstName"
+                                    htmlFor="macroRatio"
                                 >
+                                    Macro Goal
+                                </label>
+                                <select
+                                    className="p-2 bg-gray-200 rounded-md shadow"
+                                    onChange={handleChange}
+                                    text={signupForm.macroRatio}
+                                    name="macroRatio"
+                                    value={signupForm.macroRatio}
+                                    required
+                                >
+                                    <option value="maintain">
+                                        Maintenance
+                                    </option>
+                                    <option value="loss">Weight loss</option>
+                                    <option value="gain">Muscle gain</option>
+                                    <option value="keto">Keto</option>
+                                </select>
+                            </div>
+                            <div className="m-2 flex flex-col w-full">
+                                <label className="leading-8" htmlFor="sex">
+                                    Sex
+                                </label>
+                                <select
+                                    className="p-2 bg-gray-200 rounded-md shadow"
+                                    onChange={handleChange}
+                                    text={signupForm.sex}
+                                    name="sex"
+                                    value={signupForm.sex}
+                                    required
+                                >
+                                    <option value=""></option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        {signupForm.sex == "F" && (
+                            <div className="flex w-full">
+                                <div className="p-2 flex w-1/2 items-center">
+                                    {/* <input
+                                        onChange={handleChange}
+                                        type="checkbox"
+                                        name="isPregnant"
+                                        value={signupForm.isPregnant}
+                                        required
+                                    /> */}
+                                    <CheckBox
+                                        checked={signupForm.isPregnant}
+                                        setChecked={() =>
+                                            setSignupForm({
+                                                ...signupForm,
+                                                isPregnant:
+                                                    !signupForm.isPregnant,
+                                            })
+                                        }
+                                    />
+                                    <label
+                                        className="leading-8 ml-2"
+                                        htmlFor="isPregnant"
+                                    >
+                                        Pregnant?
+                                    </label>
+                                </div>
+                                <div className="p-2 flex w-1/2 items-center">
+                                    {/* <input
+                                        onChange={handleChange}
+                                        type="checkbox"
+                                        name="isLactating"
+                                        value={signupForm.isLactating}
+                                        required
+                                    /> */}
+                                    <CheckBox
+                                        checked={signupForm.isLactating}
+                                        setChecked={() =>
+                                            setSignupForm({
+                                                ...signupForm,
+                                                isLactating:
+                                                    !signupForm.isLactating,
+                                            })
+                                        }
+                                    />
+                                    <label
+                                        className="leading-8 ml-2"
+                                        htmlFor="isLactating"
+                                    >
+                                        Lactating?
+                                    </label>
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex">
+                            <div className="m-2 flex flex-col">
+                                <label className="leading-8" htmlFor="age">
                                     Age
                                 </label>
                                 <input
@@ -137,33 +256,45 @@ const SignUp = () => {
                                 />
                             </div>
                             <div className="m-2 flex flex-col w-full">
-                                <label className="leading-8" htmlFor="lastName">
-                                    Sex
+                                <label className="leading-8" htmlFor="height">
+                                    Height (in)
                                 </label>
-                                <select
-                                    className="p-2 bg-gray-200 rounded-md shadow w-full"
+                                <input
+                                    className="p-2 bg-gray-200 rounded-md shadow"
                                     onChange={handleChange}
-                                    text={signupForm.sex}
-                                    name="sex"
-                                    value={signupForm.sex}
+                                    type="number"
+                                    text={signupForm.height}
+                                    name="height"
+                                    value={signupForm.height}
                                     required
-                                >
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
+                                />
+                            </div>
+                            <div className="m-2 flex flex-col w-full">
+                                <label className="leading-8" htmlFor="weight">
+                                    Weight (lbs)
+                                </label>
+                                <input
+                                    className="p-2 bg-gray-200 rounded-md shadow"
+                                    onChange={handleChange}
+                                    type="number"
+                                    text={signupForm.weight}
+                                    name="weight"
+                                    value={signupForm.weight}
+                                    required
+                                />
                             </div>
                         </div>
                         <div className="m-2 flex flex-col">
-                            <label className="leading-8" htmlFor="email">
-                                Email
+                            <label className="leading-8" htmlFor="username">
+                                Username
                             </label>
                             <input
                                 className="p-2 bg-gray-200 rounded-md shadow"
                                 onChange={handleChange}
-                                type="email"
-                                text={signupForm.email}
-                                name="email"
-                                value={signupForm.email}
+                                type="text"
+                                text={signupForm.username}
+                                name="username"
+                                value={signupForm.username}
                                 required
                             />
                         </div>
@@ -198,10 +329,8 @@ const SignUp = () => {
                                 required
                             />
                         </div>
-                        {passwordMismatchError && (
-                            <p className="p-2 text-red-700">
-                                Passwords must match
-                            </p>
+                        {errorMessage && (
+                            <p className="p-2 text-red-700">{errorMessage}</p>
                         )}
                         <div className="flex p-2 justify-between items-center">
                             <div className="flex">

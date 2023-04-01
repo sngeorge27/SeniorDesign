@@ -5,14 +5,12 @@ import { useAuth } from "../hooks/useAuth";
 import Header from "../components/Header";
 import DateNav from "../components/DateNav";
 import FoodLog from "../components/FoodLog";
-// import { testFoodLogs, testNutrients, testRDI, testFood } from "../testdata";
 import NutrientProgress from "../components/NutrientProgress";
 import { apiBaseURL } from "../constants";
 
 export default function Track() {
-    const { token } = useAuth();
+    const { user, setUser } = useAuth();
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [loggedFoods, setLoggedFoods] = useState([]);
     const [selectedFood, setSelectedFood] = useState(null);
     const [nutrientValues, setNutrientValues] = useState([]);
     const [showRDIRange, setShowRDIRange] = useState(false);
@@ -30,25 +28,28 @@ export default function Track() {
             food: food,
             amount: amount,
         };
-        setLoggedFoods([...loggedFoods, newFood]);
+        setUser({ ...user, loggedFood: [...user.loggedFood, newFood] });
     }
 
     function deleteFood(deleteId) {
-        setLoggedFoods(
-            loggedFoods.filter((food) => {
-                return food.id !== deleteId;
-            })
-        );
+        setUser({
+            ...user,
+            loggedFood: user.loggedFood.filter((food) => {
+                return food.id != deleteId;
+            }),
+        });
         setSelectedFood(null);
     }
 
     function calculateNutrientValues() {
-        const filteredFoods = loggedFoods.filter(
-            (loggedFood) =>
-                loggedFood.date.getFullYear() === currentDate.getFullYear() &&
-                loggedFood.date.getMonth() === currentDate.getMonth() &&
-                loggedFood.date.getDate() === currentDate.getDate()
-        );
+        const filteredFoods = user.loggedFood.filter((food) => {
+            const foodDate = new Date(food.date);
+            return (
+                foodDate.getFullYear() === currentDate.getFullYear() &&
+                foodDate.getMonth() === currentDate.getMonth() &&
+                foodDate.getDate() === currentDate.getDate()
+            );
+        });
 
         let newNutrientValues = nutrientValues.map((nutrientValue) => {
             return { ...nutrientValue, amount: 0 };
@@ -102,27 +103,26 @@ export default function Track() {
 
     useEffect(() => {
         calculateNutrientValues();
-    }, [loggedFoods, currentDate, selectedFood]);
+    }, [user, currentDate, selectedFood]);
 
-    // Change to fetch profile info from db
     useEffect(() => {
         axios({
             method: "POST",
             url: apiBaseURL + "/api/goals",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
             data: {
-                age: 23,
-                sex: "M",
-                isPregnant: false,
-                isLactating: false,
+                age: user.age,
+                sex: user.sex,
+                isPregnant: user.isPregnant,
+                isLactating: user.isLactating,
+                macroRatio: user.macroRatio,
+                heightInches: user.height,
+                weightPounds: user.weight,
             },
         })
             .then((response) => {
                 const rdiValues = response.data;
-                //console.log(rdiValues);
-                //console.log(groupByCategory(rdiValues));
+                // console.log(rdiValues);
+                // console.log(groupByCategory(rdiValues));
 
                 const initialNutrientValues = [];
                 rdiValues.forEach((nutrient) => {
@@ -143,6 +143,8 @@ export default function Track() {
                     console.log(error);
                 }
             });
+
+        calculateNutrientValues();
     }, []);
 
     return (
@@ -154,22 +156,21 @@ export default function Track() {
                     currentDate={currentDate}
                     handleDateChange={handleDateChange}
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 w-full px-4 h-full min-h-0">
+                <div className="grid grid-cols-1 lg:grid-cols-2 w-full px-4 h-full min-h-0 ">
                     <div className="p-4 h-full min-h-0">
                         <FoodLog
                             currentDate={currentDate}
-                            loggedFoods={loggedFoods}
+                            loggedFoods={user.loggedFood ?? []}
                             logFood={logFood}
                             deleteFood={deleteFood}
                             selectedFood={selectedFood}
                             setSelectedFood={setSelectedFood}
-                            token={token}
                         />
                     </div>
 
-                    <div className="flex flex-col p-4 mx-auto w-full overflow-auto">
-                        <div className="flex justify-between">
-                            <h2 className="text-xl font-semibold pb-2">
+                    <div className="flex flex-col m-4 p-2 mx-auto w-full overflow-auto rounded-lg bg-gray-100 shadow-md min-h-0">
+                        <div className="flex justify-between items-center p-2 border-b">
+                            <h2 className="text-xl font-semibold ">
                                 {selectedFood
                                     ? `Nutrients for: ${selectedFood.food.shortened_name} ${selectedFood.food.emojis}`
                                     : "Food Log Nutrients"}
@@ -183,16 +184,13 @@ export default function Track() {
                                     name="showRDIRange"
                                     value={showRDIRange}
                                 />
-                                <label
-                                    className="leading-8 ml-2"
-                                    htmlFor="showRDIRange"
-                                >
+                                <label className="ml-2" htmlFor="showRDIRange">
                                     Show RDI Ranges?
                                 </label>
                             </div>
                         </div>
 
-                        <div className="flex flex-col overflow-y-auto overflow-x-hidden">
+                        <div className="grid grid-col-1 xl:grid-cols-2 overflow-y-auto overflow-x-hidden min-h-0 h-full p-2">
                             {nutrientValues &&
                                 nutrientValues.length > 0 &&
                                 nutrientValues.map((nutrientValue, i) => {

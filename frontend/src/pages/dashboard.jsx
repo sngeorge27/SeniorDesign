@@ -9,30 +9,7 @@ import NutrientProgress from "../components/NutrientProgress";
 import { apiBaseURL } from "../constants";
 
 export default function Dashboard() {
-    const { token } = useAuth();
-    const [user, setUser] = useState();
-
-    useEffect(() => {
-        axios({
-            method: "GET",
-            url: apiBaseURL + "/api/user",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-        })
-            .then((response) => {
-                const res = response.data;
-                setUser(res);
-                console.log(user);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }
-            });
-    }, []);
+    const { user } = useAuth();
 
     return (
         <div className="w-full flex flex-col h-full">
