@@ -3,6 +3,7 @@ import HeadMetadata from "../components/HeadMetadata";
 import Nav from "../components/Nav";
 import { useAuth } from "../hooks/useAuth";
 import { Navigate, useLocation } from "react-router-dom";
+import { maxWidth } from "../constants";
 
 export const ProtectedLayout = () => {
     const { user } = useAuth();
@@ -17,9 +18,11 @@ export const ProtectedLayout = () => {
     return (
         <div>
             <HeadMetadata title="Sabrosa Health" />
-            <div className="flex h-screen max-h-screen w-full bg-gray-200">
+            <div className="flex h-screen max-h-screen">
                 <Nav />
-                <Outlet />
+                <div className="mx-auto overflow-y-scroll" style={{width: maxWidth}}>
+                  <Outlet />
+                </div>
             </div>
         </div>
     );

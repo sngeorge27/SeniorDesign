@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { apiBaseURL } from "../constants";
+import { apiBaseURL, buttonStyle } from "../constants";
 
 export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
     const [selectedFood, setSelectedFood] = useState(null);
@@ -151,7 +151,7 @@ export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
                         {/* Footer */}
                         <div className="flex justify-end">
                             <button
-                                className="text-white font-semibold px-4 py-2 rounded-md bg-cyan-500 hover:bg-cyan-600"
+                                className={buttonStyle}
                                 onClick={handleSubmit}
                             >
                                 Add

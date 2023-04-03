@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { buttonStyle, defaultTransition } from "../constants"
 import AddFoodDialog from "../components/AddFoodDialog";
 
 export default function FoodLog({
@@ -30,7 +31,7 @@ export default function FoodLog({
             <div className="flex justify-between w-full p-2 items-center border-b border-gray-200">
                 <h1 className="font-semibold text-xl">Food Log</h1>
                 <button
-                    className="text-white font-semibold px-4 py-2 rounded-md bg-cyan-500 hover:bg-cyan-600"
+                    className={buttonStyle}
                     onClick={() => {
                         setIsDialogOpen(true);
                     }}
@@ -44,11 +45,11 @@ export default function FoodLog({
                         return (
                             <div
                                 key={i}
-                                className={`flex justify-between items-center border-b border-gray-200 rounded-lg cursor-pointer hover:bg-gray-200 ${
+                                className={`flex justify-between items-center border-b border-gray-200 rounded-lg cursor-pointer hover:bg-gray-200 ${defaultTransition} ${
                                     selectedFood &&
                                     selectedFood.id == loggedFood.id
-                                        ? "shadow-lg border border-gray-400"
-                                        : "last:border-b-0"
+                                        ? "shadow-md border border-gray-400"
+                                        : "border border-transparent"
                                 }`}
                             >
                                 {loggedFood.food && (

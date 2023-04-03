@@ -145,7 +145,7 @@ export default function Track() {
     }, []);
 
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col">
             <HeadMetadata title="Track" />
             <Header title="Track Food"></Header>
             <div className="flex flex-col items-center h-full min-h-0 overflow-hidden">
@@ -170,7 +170,7 @@ export default function Track() {
                             <h2 className="text-xl font-semibold ">
                                 {selectedFood
                                     ? `Nutrients for: ${selectedFood.food.shortened_name} ${selectedFood.food.emojis}`
-                                    : "Food Log Nutrients"}
+                                    : "Day's Nutrients"}
                             </h2>
                             <div className="p-2 flex">
                                 <input

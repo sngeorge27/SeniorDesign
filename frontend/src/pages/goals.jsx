@@ -35,7 +35,7 @@ export default function Goals() {
     }, []);
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col">
             <HeadMetadata title="Goals" />
             <Header title="My Goals"></Header>
             <div className="flex flex-col h-full overflow-auto">
@@ -60,25 +60,29 @@ const NutrientGroups = ({ groupArr }) => {
     const nutrientRDIs = groupArr[1];
 
     return (
-        <div className="rounded-lg border border-cyan-600 flex flex-col">
-            <div className="bg-cyan-600 text-center border-b rounded-t-lg">
-                <p className="font-bold py-1 text-gray-100">
-                    {groupName.charAt(0).toUpperCase()}
-                    {groupName.slice(1)}
-                </p>
+        <div className="rounded-lg flex flex-col bg-gray-100 shadow-md">
+            <div className="text-center border-b rounded-t-md">
+                <div className="font-bold">
+                  <div className="flex flex-col">
+                    <div className="text-xl py-4 border-black border-b-px">
+                      {groupName.charAt(0).toUpperCase()}
+                      {groupName.slice(1)}
+                    </div>
+                    <div className="flex font-light px-2 pb-2">
+                        <p className="flex-1">Nutrient</p>
+                        <div className="flex-1 flex">
+                            <p className="flex-1 text-right">RDI</p>
+                            <p className="flex-1 text-right">Limit</p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
             </div>
             <div className="fle flex-col p-2">
-                <div className="flex font-bold border-b-2 mb-2 border-cyan-600">
-                    <p className="flex-1">Nutrient</p>
-                    <div className="flex-1 flex">
-                        <p className="flex-1 text-right">RDI</p>
-                        <p className="flex-1 text-right">Upper limit</p>
-                    </div>
-                </div>
                 {nutrientRDIs.map((rdi, i) => {
                     return (
                         <div key={i} className="flex w-full justify-between">
-                            <p className="flex-1 font-bold">{rdi.name}</p>
+                            <p className="flex-1 font-light">{rdi.name}</p>
                             <div className="flex-1 flex">
                                 <p className="flex-1 text-right">{`${
                                     rdi.RDI != -1

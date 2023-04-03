@@ -67,9 +67,9 @@ export default function Dashboard() {
     }, [user]);
 
     return (
-        <div className="w-full flex flex-col h-full">
+        <div className="w-full flex flex-col">
             <Header
-                title={`Welcome ${user ? user.firstName : ""}!`}
+                title={`Welcome, ${user ? user.firstName : ""}!`}
                 subtitle="Here are your recommendations for today"
             ></Header>
             <div className="">

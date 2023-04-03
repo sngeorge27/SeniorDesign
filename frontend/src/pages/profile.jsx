@@ -3,6 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 import Header from "../components/Header";
 import CheckBox from "../components/CheckBox";
 import { useForm } from "react-hook-form";
+import { buttonStyle } from "../constants";
 
 export default function Profile() {
     const { user, setUser } = useAuth();
@@ -45,7 +46,7 @@ export default function Profile() {
     }
 
     return (
-        <div className="w-full h-full">
+        <div>
             <HeadMetadata title="Profile" />
             <Header title="Profile" showProfile={false}></Header>
             <div className="min-h-[200px] min-w-[400px] w-[80%] flex flex-col p-4 items-center mx-auto">
@@ -197,7 +198,7 @@ export default function Profile() {
                             <p className="p-2 text-red-600">*Required Fields</p>
                         )}
                         <button
-                            className="bg-cyan-500 font-semibold rounded-md p-2 m-2 text-white hover:bg-cyan-600 disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                            className={buttonStyle}
                             type="submit"
                             disabled={!isDirty}
                         >
