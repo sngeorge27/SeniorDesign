@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
-import Header from "../components/Header";
 import { apiBaseURL } from "../constants";
 import AddRecommendedFoodDialog from "../components/AddRecommendedFoodDialog";
 import { useNavigate } from "react-router-dom";
+import MainContentLayout from "../components/MainContentLayout";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -67,13 +67,13 @@ export default function Dashboard() {
     }, [user]);
 
     return (
-        <div className="w-full flex flex-col">
-            <Header
-                title={`Welcome, ${user ? user.firstName : ""}!`}
-                subtitle="Here are your recommendations for today"
-            ></Header>
-            <div className="">
-                <div className="p-2 mx-auto w-full lg:max-w-lg flex flex-col items-center rounded-lg bg-gray-100 shadow-md h-full min-h-0">
+        <MainContentLayout
+            tabTitle="Sabrosa Health"
+            headerTitle={`Welcome, ${user ? user.firstName : ""}!`}
+            headerSubtitle="Here are your recommendations for today"
+        >
+            <div className="p-4">
+                <div className="p-2 mx-auto w-full sm:max-w-lg flex flex-col items-center rounded-lg bg-gray-100 shadow-md min-h-0">
                     {selectedRec && (
                         <AddRecommendedFoodDialog
                             isOpen={isDialogOpen}
@@ -114,6 +114,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-        </div>
+        </MainContentLayout>
     );
 }

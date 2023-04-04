@@ -28,8 +28,8 @@ export default function NutrientProgress({
                     <p>{`- (${value && value.toFixed(2)} ${unit})`}</p>
                 </div>
                 {showRanges && (
-                    <p className="text-gray-600">
-                        {`Ranges: ${min ? ` (min: ${min})` : ""} ${
+                    <p className="text-gray-600 text-sm">
+                        {`RDI (${unit}): ${min ? ` (min: ${min})` : ""} ${
                             max ? `(max: ${max})` : ""
                         }`}
                     </p>

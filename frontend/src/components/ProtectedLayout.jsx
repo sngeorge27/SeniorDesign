@@ -18,11 +18,9 @@ export const ProtectedLayout = () => {
     return (
         <div>
             <HeadMetadata title="Sabrosa Health" />
-            <div className="flex h-screen max-h-screen">
+            <div className="flex h-screen max-h-screen w-full">
                 <Nav />
-                <div className="mx-auto overflow-y-scroll" style={{width: maxWidth}}>
-                  <Outlet />
-                </div>
+                <Outlet />
             </div>
         </div>
     );

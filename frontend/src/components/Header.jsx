@@ -7,10 +7,12 @@ export default function Header({
     showProfile = true,
 }) {
     return (
-        <header className="p-8 flex justify-between w-full items-center">
+        <header className="p-8 flex justify-between w-full items-center border-b">
             <div className="flex flex-col">
                 <h1 className="text-3xl font-bold leading-10">{title}</h1>
-                {subtitle && <h3 className="text-lg">{subtitle}</h3>}
+                {subtitle && subtitle.length > 0 && (
+                    <h3 className="text-lg">{subtitle}</h3>
+                )}
             </div>
             <div>
                 {children}

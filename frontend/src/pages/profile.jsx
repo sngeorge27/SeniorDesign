@@ -1,7 +1,5 @@
-import HeadMetadata from "../components/HeadMetadata";
+import MainContentLayout from "../components/MainContentLayout";
 import { useAuth } from "../hooks/useAuth";
-import Header from "../components/Header";
-import CheckBox from "../components/CheckBox";
 import { useForm } from "react-hook-form";
 import { buttonStyle } from "../constants";
 
@@ -46,15 +44,17 @@ export default function Profile() {
     }
 
     return (
-        <div>
-            <HeadMetadata title="Profile" />
-            <Header title="Profile" showProfile={false}></Header>
-            <div className="min-h-[200px] min-w-[400px] w-[80%] flex flex-col p-4 items-center mx-auto">
+        <MainContentLayout
+            tabTitle="Profile"
+            headerTitle="Profile"
+            showProfile={false}
+        >
+            <div className="min-h-[200px] flex flex-col p-4 items-center mx-auto h-full overflow-y-auto">
                 <form
                     className="p-2 flex flex-col"
                     onSubmit={handleSubmit(saveProfileChanges)}
                 >
-                    <div className="flex">
+                    <div className="flex flex-wrap md:flex-nowrap">
                         <div className="m-2 flex flex-col w-full">
                             <Label
                                 label="First Name"
@@ -86,7 +86,7 @@ export default function Profile() {
                             />
                         </div>
                     </div>
-                    <div className="flex">
+                    <div className="flex flex-wrap md:flex-nowrap">
                         <div className="m-2 flex flex-col w-full">
                             <Label
                                 label="Macro Goal"
@@ -126,7 +126,7 @@ export default function Profile() {
                         </div>
                     </div>
                     {watch("sex") == "F" && (
-                        <div className="flex w-full">
+                        <div className="flex w-full flex-wrap md:flex-nowrap">
                             <div className="p-2 flex w-1/2 items-center">
                                 <input
                                     className="mr-1"
@@ -145,8 +145,8 @@ export default function Profile() {
                             </div>
                         </div>
                     )}
-                    <div className="flex">
-                        <div className="m-2 flex flex-col">
+                    <div className="flex flex-wrap lg:flex-nowrap">
+                        <div className="m-2 flex flex-col w-full">
                             <Label label="Age" error={errors.age} />
                             <input
                                 className={`p-2 bg-gray-100 rounded-md shadow ${
@@ -162,7 +162,6 @@ export default function Profile() {
                         </div>
                         <div className="m-2 flex flex-col w-full">
                             <Label label="Height (in)" error={errors.height} />
-
                             <input
                                 className={`p-2 bg-gray-100 rounded-md shadow ${
                                     errors.height
@@ -207,7 +206,7 @@ export default function Profile() {
                     </div>
                 </form>
             </div>
-        </div>
+        </MainContentLayout>
     );
 }
 

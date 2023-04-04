@@ -1,12 +1,11 @@
-import HeadMetadata from "../components/HeadMetadata";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
-import Header from "../components/Header";
 import DateNav from "../components/DateNav";
 import FoodLog from "../components/FoodLog";
 import NutrientProgress from "../components/NutrientProgress";
 import { apiBaseURL } from "../constants";
+import MainContentLayout from "../components/MainContentLayout";
 
 export default function Track() {
     const { user, setUser } = useAuth();
@@ -145,10 +144,8 @@ export default function Track() {
     }, []);
 
     return (
-        <div className="flex flex-col">
-            <HeadMetadata title="Track" />
-            <Header title="Track Food"></Header>
-            <div className="flex flex-col items-center h-full min-h-0 overflow-hidden">
+        <MainContentLayout tabTitle="Track" headerTitle="Track Food">
+            <div className="flex flex-col items-center h-full min-h-0 overflow-hidden p-4">
                 <DateNav
                     currentDate={currentDate}
                     handleDateChange={handleDateChange}
@@ -164,7 +161,6 @@ export default function Track() {
                             setSelectedFood={setSelectedFood}
                         />
                     </div>
-
                     <div className="flex flex-col m-4 p-2 mx-auto w-full overflow-auto rounded-lg bg-gray-100 shadow-md min-h-0">
                         <div className="flex justify-between items-center p-2 border-b">
                             <h2 className="text-xl font-semibold ">
@@ -182,12 +178,12 @@ export default function Track() {
                                     value={showRDIRange}
                                 />
                                 <label className="ml-2" htmlFor="showRDIRange">
-                                    Show RDI Ranges?
+                                    Show RDI?
                                 </label>
                             </div>
                         </div>
 
-                        <div className="grid grid-col-1 xl:grid-cols-2 overflow-y-auto overflow-x-hidden min-h-0 h-full p-2">
+                        <div className="grid grid-col-1 overflow-y-auto overflow-x-hidden min-h-0 h-full p-2">
                             {nutrientValues &&
                                 nutrientValues.length > 0 &&
                                 nutrientValues.map((nutrientValue, i) => {
@@ -207,7 +203,7 @@ export default function Track() {
                     </div>
                 </div>
             </div>
-        </div>
+        </MainContentLayout>
     );
 }
 
