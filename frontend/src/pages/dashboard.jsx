@@ -16,7 +16,7 @@ export default function Dashboard() {
 
     function logRecommendation(food, amount) {
         const newFood = {
-            id: food.fdc_id,
+            id: `${food.fdc_id}-${new Date().toISOString()}`,
             date: new Date(),
             food: food,
             amount: amount,
@@ -50,8 +50,8 @@ export default function Dashboard() {
                     })
                     .map((food) => {
                         return {
-                            fdc_id: food.id,
-                            amount: parseFloat(food.amount),
+                            fdc_id: food.food.fdc_id,
+                            amount: food.amount ? parseFloat(food.amount) : 0,
                         };
                     }),
             },

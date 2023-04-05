@@ -21,11 +21,12 @@ export default function Track() {
 
     function logFood(food, amount) {
         const newFood = {
-            id: food.fdc_id,
+            id: `${food.fdc_id}-${new Date().toISOString()}`,
             date: new Date(currentDate),
             food: food,
             amount: amount,
         };
+        console.log(newFood);
         setUser({ ...user, loggedFood: [...user.loggedFood, newFood] });
     }
 
@@ -119,8 +120,6 @@ export default function Track() {
         })
             .then((response) => {
                 const rdiValues = response.data;
-                // console.log(rdiValues);
-                // console.log(groupByCategory(rdiValues));
 
                 const initialNutrientValues = [];
                 rdiValues.forEach((nutrient) => {
@@ -207,12 +206,12 @@ export default function Track() {
     );
 }
 
-function groupByCategory(arr) {
-    const groupedArray = arr.reduce((group, arr) => {
-        const { category } = arr;
-        group[category] = group[category] ?? [];
-        group[category].push(arr);
-        return group;
-    }, {});
-    return groupedArray;
-}
+// function groupByCategory(arr) {
+//     const groupedArray = arr.reduce((group, arr) => {
+//         const { category } = arr;
+//         group[category] = group[category] ?? [];
+//         group[category].push(arr);
+//         return group;
+//     }, {});
+//     return groupedArray;
+// }
