@@ -1,3 +1,5 @@
+import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+
 export default function DateNav({ currentDate, handleDateChange }) {
     return (
         <div className="flex flex-col items-center">
@@ -13,6 +15,7 @@ export default function DateNav({ currentDate, handleDateChange }) {
             </p>
             <div className="flex">
                 <DateNavButton
+                    isIcon={true}
                     onClick={() =>
                         handleDateChange(
                             new Date(
@@ -21,13 +24,13 @@ export default function DateNav({ currentDate, handleDateChange }) {
                         )
                     }
                 >
-                    <i className="fa fa-chevron-left"></i>
+                    <BiChevronLeft />
                 </DateNavButton>
-
                 <DateNavButton onClick={() => handleDateChange(new Date())}>
                     <p className="font-semibold">Today</p>
                 </DateNavButton>
                 <DateNavButton
+                    isIcon={true}
                     onClick={() =>
                         handleDateChange(
                             new Date(
@@ -36,17 +39,19 @@ export default function DateNav({ currentDate, handleDateChange }) {
                         )
                     }
                 >
-                    <i className="fa fa-chevron-right"></i>
+                    <BiChevronRight />
                 </DateNavButton>
             </div>
         </div>
     );
 }
 
-const DateNavButton = ({ children, ...props }) => {
+const DateNavButton = ({ children, isIcon = false, ...props }) => {
     return (
         <button
-            className="px-2 py-1 bg-gray-300 border border-gray-400/50 rounded-md cursor-pointer m-1 text-sm hover:shadow-sm"
+            className={`px-2 py-1 bg-gray-300 border border-gray-400/50 rounded-md cursor-pointer m-1 text-sm hover:shadow-sm ${
+                isIcon ? "text-xl" : ""
+            }`}
             {...props}
         >
             {children}

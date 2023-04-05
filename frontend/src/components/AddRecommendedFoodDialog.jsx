@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiBaseURL } from "../constants";
+import { BiX } from "react-icons/bi";
 
 export default function AddRecommendedFoodDialog({
     isOpen,
@@ -53,10 +54,10 @@ export default function AddRecommendedFoodDialog({
                                 Add to Food Log
                             </p>
                             <button
-                                className="m-1 hover:text-red-600 rounded-full text-center"
+                                className="hover:text-red-600 rounded-full text-center text-3xl"
                                 onClick={() => setIsOpen(false)}
                             >
-                                <i className="fa fa-x text-md font-semibold"></i>
+                                <BiX />
                             </button>
                         </div>
                         {/* Content */}

@@ -1,3 +1,4 @@
+import { BiUser } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 
 export default function Header({
@@ -18,10 +19,9 @@ export default function Header({
                 {children}
                 {showProfile && (
                     <NavLink to="/profile">
-                        <img
-                            className="rounded-full w-[50px] h-[50px] bg-gray-500"
-                            src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                        ></img>
+                        <div className="rounded-full w-[50px] h-[50px] bg-gray-200 flex items-center justify-center text-3xl text-gray-700 hover:bg-gray-300 hover:text-gray-800 transition-colors">
+                            <BiUser />
+                        </div>
                     </NavLink>
                 )}
             </div>

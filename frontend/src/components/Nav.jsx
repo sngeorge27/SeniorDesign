@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
+import { BiHome, BiBullseye, BiEdit, BiUser, BiLogOut } from "react-icons/bi";
 
 export default function Nav() {
     const { onLogout } = useAuth();
@@ -9,24 +10,39 @@ export default function Nav() {
     return (
         <nav className="flex flex-col bg-cyan-800 w-[70px] p-4 justify-between">
             <div className="flex flex-col items-center">
-                <NavItem href="/" icon="fa-house" label="Dashboard" />
-                <NavItem href="/goals" icon="fa-bullseye" label="Goals" />
-                <NavItem href="/track" icon="fa-pencil-square" label="Track" />
-                <NavItem href="/profile" icon="fa-user" label="Profile" />
+                <NavItem href="/" label="Dashboard">
+                    <BiHome />
+                </NavItem>
+                <NavItem href="/goals" label="Goals">
+                    <BiBullseye />
+                </NavItem>
+                <NavItem href="/track" label="Track">
+                    <BiEdit />
+                </NavItem>
+                <NavItem href="/profile" label="Profile">
+                    <BiUser />
+                </NavItem>
             </div>
             <div className="flex flex-col items-center">
                 <NavItem
-                    icon="fa-sign-out"
                     label="Logout"
                     isAction={true}
                     actionCallback={onLogout}
-                />
+                >
+                    <BiLogOut />
+                </NavItem>
             </div>
         </nav>
     );
 }
 
-const NavItem = ({ href, icon, label, isAction = false, actionCallback }) => {
+const NavItem = ({
+    href,
+    label,
+    isAction = false,
+    actionCallback,
+    children,
+}) => {
     if (isAction) {
         return (
             <NavTooltip
@@ -38,9 +54,9 @@ const NavItem = ({ href, icon, label, isAction = false, actionCallback }) => {
             >
                 <div
                     onClick={actionCallback}
-                    className="py-3 text-xl transition-all text-gray-100 hover:text-gray-300 cursor-pointer"
+                    className="py-3 text-2xl transition-all text-gray-100 hover:text-gray-300 cursor-pointer"
                 >
-                    <i className={`fa ${icon}`} aria-hidden="true"></i>
+                    {children}
                 </div>
             </NavTooltip>
         );
@@ -50,8 +66,8 @@ const NavItem = ({ href, icon, label, isAction = false, actionCallback }) => {
             to={href}
             className={({ isActive }) =>
                 isActive
-                    ? "py-3 text-xl transition-all text-yellow-400 hover:text-yellow-500"
-                    : "py-3 text-xl transition-all text-gray-100 hover:text-gray-300"
+                    ? "py-3 text-2xl transition-all text-yellow-400 hover:text-yellow-500"
+                    : "py-3 text-2xl transition-all text-gray-100 hover:text-gray-300"
             }
         >
             <NavTooltip
@@ -61,7 +77,7 @@ const NavItem = ({ href, icon, label, isAction = false, actionCallback }) => {
                 enterDelay={0}
                 className="cursor-pointer"
             >
-                <i className={`fa ${icon}`} aria-hidden="true"></i>
+                <div>{children}</div>
             </NavTooltip>
         </NavLink>
     );

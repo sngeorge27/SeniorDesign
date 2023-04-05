@@ -5,6 +5,7 @@ import { apiBaseURL } from "../constants";
 import AddRecommendedFoodDialog from "../components/AddRecommendedFoodDialog";
 import { useNavigate } from "react-router-dom";
 import MainContentLayout from "../components/MainContentLayout";
+import { BiPlus } from "react-icons/bi";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -99,13 +100,13 @@ export default function Dashboard() {
 
                                     <div className="flex items-center hover:text-cyan-600 rounded-full">
                                         <button
-                                            className="m-1 p-1 text-center"
+                                            className="m-1 p-1 text-center text-2xl"
                                             onClick={() => {
                                                 setSelectedRec(rec);
                                                 setIsDialogOpen(true);
                                             }}
                                         >
-                                            <i className="fa fa-plus text-lg"></i>
+                                            <BiPlus />
                                         </button>
                                     </div>
                                 </div>

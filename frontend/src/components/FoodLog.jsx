@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { buttonStyle, defaultTransition } from "../constants"
+import { buttonStyle, defaultTransition } from "../constants";
 import AddFoodDialog from "../components/AddFoodDialog";
+import { BiX } from "react-icons/bi";
 
 export default function FoodLog({
     currentDate,
@@ -80,12 +81,12 @@ export default function FoodLog({
 
                                 <div className="flex items-center hover:text-red-600 rounded-full">
                                     <button
-                                        className="m-1 p-1 text-center"
+                                        className="p-1 text-center text-2xl"
                                         onClick={() =>
                                             deleteFood(loggedFood.id)
                                         }
                                     >
-                                        <i className="fa fa-x text-sm"></i>
+                                        <BiX />
                                     </button>
                                 </div>
                             </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiBaseURL, buttonStyle } from "../constants";
+import { BiX } from "react-icons/bi";
 
 export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
     const [selectedFood, setSelectedFood] = useState(null);
@@ -62,10 +63,10 @@ export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
                         <div className="flex w-full justify-between items-center mb-2">
                             <p className="text-xl font-semibold">Add Food</p>
                             <button
-                                className="m-1 hover:text-red-600 rounded-full text-center"
+                                className="hover:text-red-600 rounded-full text-center text-3xl"
                                 onClick={() => setIsOpen(false)}
                             >
-                                <i className="fa fa-x text-md font-semibold"></i>
+                                <BiX />
                             </button>
                         </div>
                         {/* Content */}
@@ -91,10 +92,10 @@ export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
                                         disabled={selectedFood}
                                     ></input>
                                     <button
-                                        className="ml-4 hover:text-red-600 rounded-full text-center"
+                                        className="ml-3 hover:text-red-600 rounded-full text-center text-3xl"
                                         onClick={() => setSelectedFood(null)}
                                     >
-                                        <i className="fa fa-x text-md font-semibold"></i>
+                                        <BiX />
                                     </button>
                                 </div>
                             </div>
