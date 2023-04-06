@@ -86,9 +86,10 @@ export default function Dashboard() {
                     <div className="w-full">
                         {recommendations.map((rec, i) => {
                             return (
+                              <div className="flex flex-col border-b border-gray-200 rounded-lg last:border-b-0">
                                 <div
                                     key={i}
-                                    className="flex p-2 justify-between items-center border-b border-gray-200 rounded-lg last:border-b-0"
+                                    className="flex p-2 justify-between items-center"
                                 >
                                     <p>
                                         {`${
@@ -97,7 +98,6 @@ export default function Dashboard() {
                                                 : rec.name
                                         } ${rec.emojis ? rec.emojis : ""}`}
                                     </p>
-
                                     <div className="flex items-center hover:text-cyan-600 rounded-full">
                                         <button
                                             className="m-1 p-1 text-center text-2xl"
@@ -110,6 +110,8 @@ export default function Dashboard() {
                                         </button>
                                     </div>
                                 </div>
+                                <div className="text-xs p-2 font-light">A significant source of:<div className="px-2">{rec.significant_1}<br/>{rec.significant_2}<br/>{rec.significant_3}</div></div>
+                              </div>
                             );
                         })}
                     </div>

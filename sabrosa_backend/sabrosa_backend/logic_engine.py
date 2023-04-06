@@ -233,7 +233,7 @@ def recommend(meal_nutrient_amounts,
                                         target_amounts)
   upper_limits_placeholder = np.where(upper_limit_amounts == None, np.inf,
                                       upper_limit_amounts)
-  ratios = np.where(
+  init_ratios = np.where(
       meal_nutrient_amounts < target_amounts_placeholder,
       meal_nutrient_amounts / np.where(target_amounts_placeholder == 0, np.inf,
                                        target_amounts_placeholder),
@@ -249,11 +249,23 @@ def recommend(meal_nutrient_amounts,
                target_amounts_placeholder)[np.newaxis], 1 -
       (candidate_nutrient_matrices - target_amounts_placeholder[np.newaxis]) /
       (upper_limits_placeholder - target_amounts_placeholder)[np.newaxis])
+  init_ratios = np.where(init_ratios < 0, 0, init_ratios)
+  init_ratios = init_ratios ** 2
   ratios = np.where(ratios < 0, 0, ratios)
   ratios = ratios**2
-  food_scores = ratios.sum(axis=-1)
-  top_foods = np.argsort(food_scores)[::-1][:top_k]
-  return food_df.iloc[top_foods].to_dict('records')
+  food_scores = ratios.sum(axis=-1) * food_df['popular_score']
+  top_foods = np.argsort(food_scores)[::-1][::8][:top_k]
+  improvement = ratios[top_foods.tolist()] - init_ratios[np.newaxis]
+  if improvement.sum() < 0:
+    return []
+  else:
+    significant_nutrient_idxs = np.argsort(improvement, axis=-1)[:, ::-1][:, :3]
+    significant_nutrients = [[nutrient_definitions[idx] for idx in idxs] for idxs in significant_nutrient_idxs]
+    to_return = food_df.iloc[top_foods]
+    to_return['significant_1'] = [sig[0]['name'] for sig in significant_nutrients]
+    to_return['significant_2'] = [sig[1]['name'] for sig in significant_nutrients]
+    to_return['significant_3'] = [sig[2]['name'] for sig in significant_nutrients]
+    return to_return.to_dict('records')
 
 
 def search(query, vegetarian=False, num_results=16):
