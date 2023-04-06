@@ -1,3 +1,4 @@
+import random
 import copy
 import pickle
 import os
@@ -66,10 +67,13 @@ def get_food_log_nutrient_amounts(food_log):
   if len(food_log) == 0:
     return np.zeros(master_food_nutrient_amounts.shape[1])
   entry = food_log[0]
-  nutrient_amounts = master_food_nutrient_amounts[use_fdc_ids.index(entry['fdc_id'])] * entry['amount']
+  nutrient_amounts = master_food_nutrient_amounts[use_fdc_ids.index(
+      entry['fdc_id'])] * entry['amount'] / 100
   for entry in food_log[1:]:
-    nutrient_amounts += master_food_nutrient_amounts[use_fdc_ids.index(entry['fdc_id'])] * entry['amount']
+    nutrient_amounts += master_food_nutrient_amounts[use_fdc_ids.index(
+        entry['fdc_id'])] * entry['amount'] / 100
   return nutrient_amounts
+
 
 def get_intake_profile(age: float,
                        sex: str,
@@ -228,7 +232,7 @@ def recommend(meal_nutrient_amounts,
               target_amounts,
               upper_limit_amounts,
               top_k=3,
-              serving_size_to_recommend=100):
+              serving_size_to_recommend=50):
   target_amounts_placeholder = np.where(target_amounts == None, 0,
                                         target_amounts)
   upper_limits_placeholder = np.where(upper_limit_amounts == None, np.inf,
@@ -250,21 +254,30 @@ def recommend(meal_nutrient_amounts,
       (candidate_nutrient_matrices - target_amounts_placeholder[np.newaxis]) /
       (upper_limits_placeholder - target_amounts_placeholder)[np.newaxis])
   init_ratios = np.where(init_ratios < 0, 0, init_ratios)
-  init_ratios = init_ratios ** 2
   ratios = np.where(ratios < 0, 0, ratios)
-  ratios = ratios**2
-  food_scores = ratios.sum(axis=-1) * food_df['popular_score']
-  top_foods = np.argsort(food_scores)[::-1][::8][:top_k]
+  food_scores = ratios.sum(axis=-1)
+  top_foods = np.argsort(food_scores)[::-1][random.randint(0, 7)::8][:top_k]
   improvement = ratios[top_foods.tolist()] - init_ratios[np.newaxis]
-  if improvement.sum() < 0:
+  if init_ratios.sum() > food_scores.max():
     return []
   else:
-    significant_nutrient_idxs = np.argsort(improvement, axis=-1)[:, ::-1][:, :3]
-    significant_nutrients = [[nutrient_definitions[idx] for idx in idxs] for idxs in significant_nutrient_idxs]
+    relevant_to_target_idxs = np.where(target_amounts)[0]
+    significant_nutrient_idxs = np.argsort(improvement, axis=-1)[:, ::-1]
+    significant_nutrient_idxs = np.array(
+        [[v for v in sub if v in relevant_to_target_idxs]
+         for sub in significant_nutrient_idxs])[:3]
+    significant_nutrients = [[nutrient_definitions[idx] for idx in idxs]
+                             for idxs in significant_nutrient_idxs]
     to_return = food_df.iloc[top_foods]
-    to_return['significant_1'] = [sig[0]['name'] for sig in significant_nutrients]
-    to_return['significant_2'] = [sig[1]['name'] for sig in significant_nutrients]
-    to_return['significant_3'] = [sig[2]['name'] for sig in significant_nutrients]
+    to_return['significant_1'] = [
+        sig[0]['name'] for sig in significant_nutrients
+    ]
+    to_return['significant_2'] = [
+        sig[1]['name'] for sig in significant_nutrients
+    ]
+    to_return['significant_3'] = [
+        sig[2]['name'] for sig in significant_nutrients
+    ]
     return to_return.to_dict('records')
 
 
@@ -291,4 +304,5 @@ def search(query, vegetarian=False, num_results=16):
 
 
 if __name__ == "__main__":
-  visualize_profile(*get_intake_profile(20, "M"))
+  print(get_intake_profile(56, "F", False, False, "loss", 64, 150))
+  # visualize_profile(*get_intake_profile(20, "M"))
