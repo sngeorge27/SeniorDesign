@@ -57,6 +57,6 @@ Total Hours: 47.5
 |Development Tools Discussion Meeting| 1.5|
 |Nutrition Dataset Research| 1|
 |Backend/API Development| 20 |
-
-Total Hours: 48.5
 |General Debugging and Bug Fixes| 5 |
+
+Total Hours: 53.5
