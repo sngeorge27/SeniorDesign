@@ -30,7 +30,7 @@ Our application gives users recommendations on food items to eat based on the nu
 
 ## Food Log
 
-Our food log is where you are able to track what foods you have eaten throughout a given day and see your total nutrient intake progress towards your goals.
+Our food log is where you are able to track what foods you have eaten throughout a given day and see your total nutrient intake progress towards your goals. The nutrient progress bars will change color based on your progress. It will appear gray if you have not hit the minimum RDI value yet and will fill up the bar as it approaches the mimimum RDI value. If you have hit the mimimum RDI value and you are still under the maximum RDI value, it will appear green and the bar will be full. If you go over the maximum RDI value, it will appear red. In some cases, a nutrient does not have a published maximum RDI value, such as fat, so it will appear green for any amount over the mimimum RDI value which is not realistic in nature. There are also some cases where there is no minimum RDI value, but there is a maximum RDI value, such as caffeine, in which case it will appear green and fill the bar as it approaches the RDI limit.
 
 ![Food Log Page](https://github.com/sngeorge27/SeniorDesign/blob/main/HomeworkAssigments/UIDesignSpecification/TrackFood.png)
 
