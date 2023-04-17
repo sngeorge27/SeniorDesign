@@ -57,3 +57,5 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 We had no expenses for our project
 
 ## Appendix
+- [Flask Documentation](https://flask.palletsprojects.com/en/2.2.x/)
+- [React Documentation](https://legacy.reactjs.org/)
