@@ -15,6 +15,7 @@
   8. [Summary of Hours and Justification](https://github.com/sngeorge27/SeniorDesign/blob/main/README.md#summary-of-hours-and-justification)
   9. [Summary of Expenses](https://github.com/sngeorge27/SeniorDesign/blob/main/README.md#summary-of-expenses)
   10. [Appendix](https://github.com/sngeorge27/SeniorDesign/blob/main/README.md#appendix)
+
 </details>
 
 ## Project Description
@@ -23,7 +24,7 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 
 ## User Interface Specification
 
--   [User Interface Specification]()
+-   [User Interface Specification](https://github.com/sngeorge27/SeniorDesign/tree/main/HomeworkAssigments/UIDesignSpecification/UIDesignSpecification.md)
 
 ## Test Plan and Results
 
@@ -32,7 +33,7 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 
 ## User Manual
 
--   [User Manual]()
+-   [User Manual](https://github.com/sngeorge27/SeniorDesign/tree/main/HomeworkAssigments/UserManual/UserManual.md)
 
 ## Spring Final PPT Presentation
 
@@ -49,7 +50,7 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 
 ## Summary of Hours and Justification
 
--   [Summary of Hours and Justification]()
+-   [Summary of Hours and Justification](https://github.com/sngeorge27/SeniorDesign/tree/main/HomeworkAssigments/SummaryOfHours.md)
 
 ## Summary of Expenses
 
