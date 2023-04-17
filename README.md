@@ -41,7 +41,7 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 
 ## Final Expo Poster
 
--   [Final Expo Poster](https://drive.google.com/file/d/1O2FEPk4RLGaTNR-8_lB4iZxN64WSRyXX/view?usp=share_link)
+-   [Final Expo Poster](https://drive.google.com/file/d/1O2FEPk4RLGaTNR-8_lB4iZxN64WSRyXX/view?usp=sharing)
 
 ## Assessments
 
