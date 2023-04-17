@@ -54,7 +54,7 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 
 ## Summary of Expenses
 
-We had no expenses for our project
+We had no expenses for our project. Free GCP credits were used to pay for Google Cloud Platform expenses.
 
 ## Appendix
 - [Flask Documentation](https://flask.palletsprojects.com/en/2.2.x/)
