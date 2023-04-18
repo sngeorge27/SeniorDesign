@@ -29,7 +29,7 @@ Our aim is to build a tightly-bound ecosystem of software tools to help people s
 ## Test Plan and Results
 
 -   [Test Plan](https://github.com/sngeorge27/SeniorDesign/blob/main/HomeworkAssigments/TestPlan/Test%20Plan.pdf)
--   [Test Plan Results](https://github.com/sngeorge27/SeniorDesign/blob/main/HomeworkAssigments/TestPlan/TestPlanResults.md)
+-   [Test Plan Results](https://github.com/sngeorge27/SeniorDesign/blob/main/HomeworkAssigments/TestPlan/Test%20Plan%20Results.pdf)
 
 ## User Manual
 
