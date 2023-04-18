@@ -58,6 +58,7 @@ export default function Dashboard() {
         })
             .then((response) => {
                 const recs = response.data;
+                console.log(recs)
                 setRecommendations(recs);
             })
             .catch((error) => {
@@ -74,7 +75,7 @@ export default function Dashboard() {
             headerSubtitle="Here are your recommendations for today"
         >
             <div className="p-4">
-                <div className="p-2 mx-auto w-full sm:max-w-lg flex flex-col items-center rounded-lg bg-gray-100 shadow-md min-h-0">
+                <div className="p-2 mx-auto w-full flex flex-col items-center rounded-lg bg-gray-100 shadow-md min-h-0">
                     {selectedRec && (
                         <AddRecommendedFoodDialog
                             isOpen={isDialogOpen}
@@ -83,7 +84,7 @@ export default function Dashboard() {
                             addCallback={logRecommendation}
                         />
                     )}
-                    <div className="w-full">
+                    <div className="w-full grid grid-cols-2 gap-4">
                         {recommendations.map((rec, i) => {
                             return (
                               <div className="flex flex-col border-b border-gray-200 rounded-lg last:border-b-0">
@@ -91,13 +92,18 @@ export default function Dashboard() {
                                     key={i}
                                     className="flex p-2 justify-between items-center"
                                 >
-                                    <p>
+                                    <p className="font-semibold text-xl hover:text-cyan-600 border-b border-gray-500 hover:cursor-pointer"
+                                    onClick={() => {
+                                      setSelectedRec(rec);
+                                      setIsDialogOpen(true);
+                                  }}> 
                                         {`${
                                             rec.shortened_name
                                                 ? rec.shortened_name
                                                 : rec.name
                                         } ${rec.emojis ? rec.emojis : ""}`}
                                     </p>
+                                    {/* <span className="animate-spin opacity-20 absolute" style={{fontSize: "48px"}}>{rec.emojis}</span> */}
                                     <div className="flex items-center hover:text-cyan-600 rounded-full">
                                         <button
                                             className="m-1 p-1 text-center text-2xl"
@@ -110,7 +116,7 @@ export default function Dashboard() {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="text-xs p-2 font-light">A significant source of:<div className="px-2">{rec.significant_1}<br/>{rec.significant_2}<br/>{rec.significant_3}</div></div>
+                                <div className="p-2">A significant source of:<div className="px-2">{rec.significant_1}<br/>{rec.significant_2}<br/>{rec.significant_3}</div></div>
                               </div>
                             );
                         })}

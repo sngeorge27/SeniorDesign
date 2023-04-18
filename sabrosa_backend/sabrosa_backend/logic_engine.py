@@ -231,7 +231,7 @@ def ratios_to_score(ratios):
 def recommend(meal_nutrient_amounts,
               target_amounts,
               upper_limit_amounts,
-              top_k=3,
+              top_k=6,
               serving_size_to_recommend=50):
   target_amounts_placeholder = np.where(target_amounts == None, 0,
                                         target_amounts)
@@ -255,7 +255,9 @@ def recommend(meal_nutrient_amounts,
       (upper_limits_placeholder - target_amounts_placeholder)[np.newaxis])
   init_ratios = np.where(init_ratios < 0, 0, init_ratios)
   ratios = np.where(ratios < 0, 0, ratios)
-  food_scores = ratios.sum(axis=-1)
+  food_scores = (ratios * (food_df['popular_score'] >= 3).values.astype(np.float32)[:, np.newaxis]).sum(axis=-1)
+  print(food_scores)
+  # food_scores = ratios.sum(axis=-1)
   top_foods = np.argsort(food_scores)[::-1][random.randint(0, 7)::8][:top_k]
   improvement = ratios[top_foods.tolist()] - init_ratios[np.newaxis]
   if init_ratios.sum() > food_scores.max():
@@ -265,7 +267,7 @@ def recommend(meal_nutrient_amounts,
     significant_nutrient_idxs = np.argsort(improvement, axis=-1)[:, ::-1]
     significant_nutrient_idxs = np.array(
         [[v for v in sub if v in relevant_to_target_idxs]
-         for sub in significant_nutrient_idxs])[:3]
+         for sub in significant_nutrient_idxs])[:top_k]
     significant_nutrients = [[nutrient_definitions[idx] for idx in idxs]
                              for idxs in significant_nutrient_idxs]
     to_return = food_df.iloc[top_foods]
@@ -304,5 +306,13 @@ def search(query, vegetarian=False, num_results=16):
 
 
 if __name__ == "__main__":
-  print(get_intake_profile(56, "F", False, False, "loss", 64, 150))
-  # visualize_profile(*get_intake_profile(20, "M"))
+  targets, _ = get_intake_profile(20, "F", False, False, "loss", 64, 150)
+  use_idxs = np.where(targets)[0]
+  coef = np.corrcoef(master_food_nutrient_amounts[:, use_idxs], rowvar=False)
+  coef = np.concatenate([coef, 3 * coef.mean(axis=0)[np.newaxis]], axis=0)
+  plt.imshow(coef)
+  plt.xticks(np.arange(coef.shape[1]),
+             [nutrient_definitions[idx]['name'] for idx in use_idxs],
+             rotation=90)
+  plt.tight_layout()
+  plt.savefig("correlation.png")

@@ -58,7 +58,7 @@ const NutrientGroups = ({ groupArr }) => {
 
     return (
         <div className="p-2 d w-full md:w-1/2">
-            <div className="rounded-lg flex flex-col bg-gray-100 shadow-m">
+            <div className="rounded-lg flex flex-col bg-gray-100 shadow-md">
                 <div className="text-center border-b rounded-t-md">
                     <div className="font-bold">
                         <div className="flex flex-col">
@@ -66,7 +66,7 @@ const NutrientGroups = ({ groupArr }) => {
                                 {groupName.charAt(0).toUpperCase()}
                                 {groupName.slice(1)}
                             </div>
-                            <div className="flex font-light px-2 pb-2">
+                            <div className="flex px-2 pb-2">
                                 <p className="flex-1">Nutrient</p>
                                 <div className="flex-1 flex">
                                     <p className="flex-1 text-right">RDI</p>
@@ -83,7 +83,7 @@ const NutrientGroups = ({ groupArr }) => {
                                 key={i}
                                 className="flex w-full justify-between"
                             >
-                                <p className="flex-1 font-light">{rdi.name}</p>
+                                <p className="flex-1">{rdi.name}</p>
                                 <div className="flex-1 flex">
                                     <p className="flex-1 text-right">{`${
                                         rdi.RDI != -1

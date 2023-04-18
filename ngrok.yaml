@@ -1,0 +1,10 @@
+authtoken: 1l5tfJe6V28UR9rZ7r0Q9lae17n_4XxV3Xkkcpe8Zp9WttCJN
+tunnels:
+  baseAPI:
+    proto: http
+    addr: http://localhost:5005/
+    host_header: localhost:5005
+  authAPI:
+    proto: http
+    addr: http://localhost:5173/
+    host_header: localhost:5173

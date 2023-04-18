@@ -12,7 +12,7 @@ export default function Track() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedFood, setSelectedFood] = useState(null);
     const [nutrientValues, setNutrientValues] = useState([]);
-    const [showRDIRange, setShowRDIRange] = useState(false);
+    const [showRDIRange, setShowRDIRange] = useState(true);
 
     function handleDateChange(newDate) {
         setSelectedFood(null);
@@ -167,14 +167,15 @@ export default function Track() {
                                     ? `Nutrients for: ${selectedFood.food.shortened_name} ${selectedFood.food.emojis}`
                                     : "Day's Nutrients"}
                             </h2>
-                            <div className="p-2 flex">
+                            <div className="p-2 flex"
+                              onClick={(e) =>
+                                setShowRDIRange(!showRDIRange)
+                              }
+                            >
                                 <input
-                                    onChange={(e) =>
-                                        setShowRDIRange(e.target.checked)
-                                    }
                                     type="checkbox"
                                     name="showRDIRange"
-                                    value={showRDIRange}
+                                    checked={showRDIRange}
                                 />
                                 <label className="ml-2" htmlFor="showRDIRange">
                                     Show RDI?

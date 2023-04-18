@@ -1,18 +1,19 @@
 /* Main CSS Here */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("http://fonts.googleapis.com/css?family=Inter&display=swap");
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    font-family: "Inter", sans-serif;
 }
 :root {
-    --background-color1: #fafaff;
+    --background-color1: #ffffff;
     --background-color2: #ffffff;
-    --background-color3: #ededed;
-    --background-color4: #c5e4f4b3;
+    --background-color3: #ffffff;
+    --background-color4: #ffffffb3;
     --primary-color: #18275d;
     --secondary-color: #00477d;
     --Border-color: #00716a;

@@ -6,13 +6,13 @@ import { BiX } from "react-icons/bi";
 export default function AddFoodDialog({ isOpen, setIsOpen, addCallback }) {
     const [selectedFood, setSelectedFood] = useState(null);
     const [query, setQuery] = useState("");
-    const [foodAmount, setFoodAmount] = useState("");
+    const [foodAmount, setFoodAmount] = useState("100");
     const [foodItems, setFoodItems] = useState([]);
 
     function handleSubmit() {
         addCallback(selectedFood, foodAmount);
         setSelectedFood(null);
-        setFoodAmount("");
+        setFoodAmount("100");
         setQuery("");
         setIsOpen(false);
     }

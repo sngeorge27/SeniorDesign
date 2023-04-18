@@ -8,7 +8,7 @@ export default function Nav() {
     const { onLogout } = useAuth();
 
     return (
-        <nav className="flex flex-col bg-cyan-800 w-[70px] p-4 justify-between">
+        <nav className="flex flex-col bg-cyan-800 w-[120px] p-4 justify-between">
             <div className="flex flex-col items-center">
                 <NavItem href="/" label="Dashboard">
                     <BiHome />
@@ -64,10 +64,11 @@ const NavItem = ({
     return (
         <NavLink
             to={href}
+            style={{fontSize: "32px"}}
             className={({ isActive }) =>
                 isActive
-                    ? "py-3 text-2xl transition-all text-yellow-400 hover:text-yellow-500"
-                    : "py-3 text-2xl transition-all text-gray-100 hover:text-gray-300"
+                    ? "py-6 text-2xl transition-all text-yellow-400 hover:text-yellow-500"
+                    : "py-6 text-2xl transition-all text-gray-100 hover:text-gray-300"
             }
         >
             <NavTooltip

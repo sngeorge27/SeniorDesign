@@ -10,7 +10,7 @@ export default function AddRecommendedFoodDialog({
     addCallback,
 }) {
     const [selectedFood, setSelectedFood] = useState(recommendedFood);
-    const [foodAmount, setFoodAmount] = useState("");
+    const [foodAmount, setFoodAmount] = useState("100");
 
     function handleSubmit() {
         addCallback(selectedFood, foodAmount);
