@@ -59,3 +59,5 @@ We had no expenses for our project. Free GCP credits were used to pay for Google
 ## Appendix
 - [Flask Documentation](https://flask.palletsprojects.com/en/2.2.x/)
 - [React Documentation](https://legacy.reactjs.org/)
+- [USDA Health Data](https://fdc.nal.usda.gov/)
+- [NIH Nutrient Recommendations Data](https://ods.od.nih.gov/HealthInformation/nutrientrecommendations.aspx)
