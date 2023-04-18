@@ -1,5 +1,15 @@
 # Sabrosa Health
 
+### Team: Sodium Hypobromite
+
+### Members:
+
+-   Sarah George
+-   Brandon Jones
+-   Noah Trenaman
+-   Rajdeep Bandopadhyay
+-   Manvith Krishna Kandukuri
+
 <details>
   <summary><h2>Table of Contents</h2></summary>
   
