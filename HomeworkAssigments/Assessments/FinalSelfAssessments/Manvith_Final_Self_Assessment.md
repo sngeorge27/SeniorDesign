@@ -1,0 +1,5 @@
+# Manvith Final Self Assessment
+
+As a member of the Senior Design team, my individual contribution to the project was focused on full-stack development and of the front-end application using React. This involved creating an interface for users to interact with the database and API we were building, as well as implementing thoughtful design principles beyond just engineering it well. I also worked on finding a feature set that differentiates our product and provides the user with a better and unique blend of functionality. To achieve this, I utilized the skills I had identified in my initial assessment from last fall, such as knowledge of software engineering, data structures, and database design.
+
+Throughout the project, I learned a lot about teamwork, communication, and problem-solving. I had successes in delivering a fully functional and well-designed web application, and overcoming obstacles such as limited control over user preferences and ensuring that the application was error-free and reliable. Overall, I built competencies in software development, project management, and collaboration, which will be valuable in my future career as a software engineer.
